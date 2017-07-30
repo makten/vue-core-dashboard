@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -9,6 +10,8 @@ using vue_core_dashboard.Models;
 
 namespace vue_core_dashboard.Controllers
 {
+    //Apply to all routes
+    [Route("/api/vehicles")]
     public class VehiclesController : Controller
     {
         private readonly DashboardDbContext context;
@@ -20,21 +23,31 @@ namespace vue_core_dashboard.Controllers
 
         }
 
-        [HttpGet("api/vehicles")]
-        public async Task<IEnumerable<VehicleResource>> GetVehicles()
+        // [HttpGet]
+        // public async Task<IEnumerable<VehicleResource>> GetVehicles()
+        // {
+        //     var vehicles = await context.Vehicles.Include(m => m.Model).ToListAsync();
+
+        //     return mapper.Map<List<Vehicle>, List<VehicleResource>>(vehicles);
+        // }
+
+
+        // [HttpPost("/api/vehicles")]
+        [HttpPost]
+        public async Task<IActionResult> CreateVehicle([FromBody] VehicleResource vehicleResource)
         {
-            var vehicles = await context.Vehicles.Include(m => m.Make).ToListAsync();
+            if(!ModelState.IsValid)
+                return BadRequest(ModelState);
+            
+            var vehicle = mapper.Map<VehicleResource, Vehicle>(vehicleResource);
+            vehicle.LastUpdate = DateTime.Now;
 
-            return mapper.Map<List<Vehicle>, List<VehicleResource>>(vehicles);
-        }
+            context.Vehicles.Add(vehicle);
+            await context.SaveChangesAsync();
 
+           var result = mapper.Map<Vehicle, VehicleResource>(vehicle);
 
-        [HttpPost("api/vehicles")]
-        public IActionResult Create([FromBody] Vehicle vehicle)
-        {
-            // if(ModelState.IsValid)
-            //     var test = context.
-            return Json(vehicle);
+            return Ok(result);
         }
     }
 }

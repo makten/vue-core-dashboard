@@ -8,7 +8,7 @@ using dashboard.Persistence;
 namespace Dashboard.Migrations
 {
     [DbContext(typeof(DashboardDbContext))]
-    [Migration("20170729100206_AddVehicle")]
+    [Migration("20170730124901_AddVehicle")]
     partial class AddVehicle
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -78,20 +78,30 @@ namespace Dashboard.Migrations
                         .IsRequired()
                         .HasMaxLength(255);
 
-                    b.Property<string>("Feature");
-
                     b.Property<bool>("IsRegistered");
 
-                    b.Property<DateTime>("LastUpdate")
-                        .ValueGeneratedOnAddOrUpdate();
+                    b.Property<DateTime>("LastUpdate");
 
-                    b.Property<int>("MakeId");
+                    b.Property<int>("ModelId");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MakeId");
+                    b.HasIndex("ModelId");
 
                     b.ToTable("Vehicles");
+                });
+
+            modelBuilder.Entity("vue_core_dashboard.Models.VehicleFeature", b =>
+                {
+                    b.Property<int>("VehicleId");
+
+                    b.Property<int>("FeatureId");
+
+                    b.HasKey("VehicleId", "FeatureId");
+
+                    b.HasIndex("FeatureId");
+
+                    b.ToTable("VehicleFeatures");
                 });
 
             modelBuilder.Entity("dashboard.Models.Model", b =>
@@ -104,9 +114,22 @@ namespace Dashboard.Migrations
 
             modelBuilder.Entity("vue_core_dashboard.Models.Vehicle", b =>
                 {
-                    b.HasOne("dashboard.Models.Model", "Make")
+                    b.HasOne("dashboard.Models.Model", "Model")
                         .WithMany()
-                        .HasForeignKey("MakeId")
+                        .HasForeignKey("ModelId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("vue_core_dashboard.Models.VehicleFeature", b =>
+                {
+                    b.HasOne("dashboard.Models.Feature", "Feature")
+                        .WithMany()
+                        .HasForeignKey("FeatureId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("vue_core_dashboard.Models.Vehicle", "Vehicle")
+                        .WithMany("Features")
+                        .HasForeignKey("VehicleId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
         }

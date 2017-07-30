@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using dashboard.Models;
@@ -10,10 +12,10 @@ namespace vue_core_dashboard.Models
     {
         public int Id { get; set; } 
 
-        [Required]
-        public Model Make { get; set; }
-        public int MakeId { get; set; }
-        public string Feature { get; set; }
+       
+        public int ModelId { get; set; }
+        public Model Model { get; set; }
+        // public string Feature { get; set; }
         public bool IsRegistered { get; set; }
 
         [Required]
@@ -25,8 +27,14 @@ namespace vue_core_dashboard.Models
         [StringLength(255)]
         public string ContactPhone { get; set; }
 
-        [Required, DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        // [Required, DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public DateTime LastUpdate { get; set; }
+        public ICollection<VehicleFeature> Features { get; set; }
+
+        public Vehicle()
+        {
+            Features = new Collection<VehicleFeature>();
+        }
 
     }
 }
