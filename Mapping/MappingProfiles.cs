@@ -1,6 +1,8 @@
 using AutoMapper;
 using dashboard.Controllers.Resources;
 using dashboard.Models;
+using vue_core_dashboard.Controllers.Resources;
+using vue_core_dashboard.Models;
 
 namespace dashboard.Mapping
 {
@@ -11,6 +13,7 @@ namespace dashboard.Mapping
             CreateMap<Make, MakeResource>();
             CreateMap<Model, ModelResource>();
             CreateMap<Feature, FeatureResource>();
+            CreateMap<Vehicle, VehicleResource>();
         }
     }
 }

@@ -1,0 +1,22 @@
+<link rel="stylesheet" href="./dashboard.css" />
+
+<template>
+    <div>
+
+        <header-component></header-component>
+        <sidebar-component></sidebar-component>
+        
+        <div class="main-content">
+
+            <div class="content">                
+        
+                <router-view></router-view>
+                <footer-component></footer-component> 
+            </div>
+            
+        </div> 
+
+    </div>
+</template>
+
+<script src="./dashboard.ts"></script>

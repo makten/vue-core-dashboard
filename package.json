@@ -24,6 +24,7 @@
     "webpack-hot-middleware": "^2.12.2"
   },
   "dependencies": {
+    "axios": "^0.16.2",
     "lodash": "^4.17.4",
     "vue-select": "^2.2.0"
   }

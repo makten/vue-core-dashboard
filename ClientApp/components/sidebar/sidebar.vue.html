@@ -1,0 +1,51 @@
+<template>
+
+  <div class="side-nav" ref="sidebar">
+
+ 
+  <div class="logo">
+    <i class="fa fa-tachometer"></i>
+     <span> {{ logo }} </span> 
+  </div>
+
+  <nav class="side-list">
+
+    <div class="profile-wrapper">
+
+       <img src="../../../wwwroot/img/prof.jpg" class="user-image" alt="User Image" /> 
+    </div>
+
+    <ul>  
+      <li v-for="item in linkList" :class="{ active: item.active }" @click="changeActive(item.title)"> 
+        <router-link :to="item.link" :exact="true">
+          <span :class="item.icon"></span> {{ item.title }}
+        </router-link>
+                 
+      </li> 
+    </ul>
+    
+  </nav>
+
+</div>
+  
+</template>
+<style>
+    .profile-wrapper {
+        height: 100px;
+        background: #1F60C1;
+        padding-top: 10px;
+        text-align: center;
+    }
+    
+    .user-image {
+        border: 2px solid lightgrey;
+        padding: 2px;
+        margin-right: 7px;
+        height: 55px;
+        width: 55px;
+        border-radius: 50%;
+        background: #E9E8E8;
+    }
+</style>
+
+<script src="./sidebar.ts"></script>
