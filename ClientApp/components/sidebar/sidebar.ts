@@ -9,9 +9,9 @@ import * as _ from 'lodash';
 export default class DashboardComponent extends Vue {
 
   linkList: any[] = [
-    { icon: 'glyphicon glyphicon-dashboard', title: 'Dashboard', link: '/', active: true },
-    { icon: 'glyphicon glyphicon-th-list', title: 'Fit a Model', link: '/fetchdata', active: false },
-    { icon: 'glyphicon glyphicon-plus', title: 'Create Vehicle', link: '/vehicle/new', active: false },
+    { icon: '<i class="material-icons md-24" aria-hidden="true">dashboard</i>', title: 'Dashboard', link: '/', active: true },
+    { icon: '<i class="material-icons md-24" aria-hidden="true">list</i>', title: 'Vehicles', link: '/fetchdata', active: false },
+    { icon: '<i class="material-icons md-24" aria-hidden="true">note_add</i>', title: 'Create Vehicle', link: '/vehicle/new', active: false },
   ];
 
   forAdmin: any[] = [
