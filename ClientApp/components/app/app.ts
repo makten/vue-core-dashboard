@@ -5,7 +5,7 @@ import { Component } from 'vue-property-decorator';
     components: {
            
         DashboardComponent: require('../dashboard/dashboard.vue.html'),
-        MenuComponent: require('../navmenu/navmenu.vue.html'),
+        // MenuComponent: require('../navmenu/navmenu.vue.html'),
     }
 })
 export default class AppComponent extends Vue {

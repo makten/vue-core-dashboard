@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace dashboard.Models
+namespace dashboard.Core.Models
 {
     [Table("Features")]
     public class Feature

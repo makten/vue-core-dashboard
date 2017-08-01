@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace vue_core_dashboard.Controllers.Resources
+namespace dashboard.Controllers.Resources
 {
     public class ContactResource 
     {

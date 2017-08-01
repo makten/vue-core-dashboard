@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using dashboard.Controllers.Resources;
-using dashboard.Models;
+using dashboard.Core.Models;
 using dashboard.Persistence;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -22,11 +22,11 @@ namespace dashboard.Controllers
 
 
         [HttpGet("api/features")]
-        public async Task<IEnumerable<FeatureResource>> GetFeatures()
+        public async Task<IEnumerable<KeyValuePairResource>> GetFeatures()
         {
             var features = await context.Features.ToListAsync();
 
-            return mapper.Map<List<Feature>, List<FeatureResource>>(features); 
+            return mapper.Map<List<Feature>, List<KeyValuePairResource>>(features); 
         }
     }
 }

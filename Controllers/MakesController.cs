@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using dashboard.Controllers.Resources;
-using dashboard.Models;
+using dashboard.Core.Models;
 using dashboard.Persistence;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;

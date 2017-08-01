@@ -1,6 +1,5 @@
-using dashboard.Models;
 using Microsoft.EntityFrameworkCore;
-using vue_core_dashboard.Models;
+using dashboard.Core.Models;
 
 namespace dashboard.Persistence
 {
@@ -10,6 +9,8 @@ namespace dashboard.Persistence
         public DbSet<Make> Makes { get; set; }
         public DbSet<Feature> Features { get; set; }
         public DbSet<Vehicle> Vehicles { get; set; }
+        public DbSet<Model> Models { get; set; }
+        
         public DashboardDbContext(DbContextOptions<DashboardDbContext> options)
             :base(options)
         {

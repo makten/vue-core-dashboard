@@ -1,24 +1,32 @@
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
 import * as _ from 'lodash';
+import axios from 'axios';
 
 interface Vehicle {
     id: number;
-    makeId: number;
+    make: any;
     feature: any;   
     isRegistered: boolean;
-    contactName: string;
-    contactEmail: string;
-    contactPhone: string;
+    contact: any;
     lastUpdate: string;
 
 }
 
+@Component
 export default class VehicleComponent extends Vue {
     vehicles: Vehicle[] = [];
 
     mounted() {
-        fetch('/api/SampleData/WeatherForecasts')
+        
+        this.getVehicles();
+                
+    }
+    
+
+    getVehicles() {
+        
+        fetch('/api/vehicles')
             .then(response => response.json() as Promise<Vehicle[]>)
             .then(data => {
                 this.vehicles = data;

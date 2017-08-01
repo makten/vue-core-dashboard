@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using dashboard.Models;
+using dashboard.Core.Models;
 
 namespace dashboard.Controllers.Resources
 {

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using dashboard.Persistence;
+using dashboard.Core;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.Webpack;
@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using AutoMapper;
+using dashboard.Persistence;
 
 namespace WebApplicationBasic
 {
@@ -31,6 +32,11 @@ namespace WebApplicationBasic
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            // Repository Injections
+            services.AddScoped<IVehicleRepository, VehicleRepository>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            
             //First install automapper and extension
             services.AddAutoMapper();
             

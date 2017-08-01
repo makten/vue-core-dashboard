@@ -1,5 +1,37 @@
 <template>
     <div>
-        
+
+        <h2>Vehicles</h2>
+        <router-link to="/vehicle/new" :exact="true" class="btn btn-primary">
+          <span class="glyphicon glyphicon-add"></span> New
+        </router-link>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Make</th>
+                    <th>Model</th>
+                    <th>Features</th>
+                    <th>Contact</th>
+                    <th>Last Updated</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr v-for="vehicle in vehicles">
+                    <td>{{ vehicle.make.name }}</td>
+                    <td>{{ vehicle.model.name }}</td>
+                    <td>
+                        <span v-for="f in vehicle.features">
+                            {{ f.name }}
+                        </span>
+                    </td>
+                    <td>{{ vehicle.contact.name }} | {{ vehicle.contact.email }} | {{ vehicle.contact.phone }}</td>
+                    <td>{{ vehicle.lastUpdate }}</td>
+                </tr>
+            </tbody>
+        </table>
+
     </div>
 </template>
+
+<script src="./vehicle.ts"></script>

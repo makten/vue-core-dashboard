@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using dashboard.Models;
+using dashboard.Core.Models;
 
-namespace vue_core_dashboard.Models
+
+namespace dashboard.Core.Models
 {
     [Table("Vehicles")]
     public class Vehicle

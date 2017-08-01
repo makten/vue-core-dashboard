@@ -1,7 +1,6 @@
 using System.ComponentModel.DataAnnotations.Schema;
-using dashboard.Models;
 
-namespace vue_core_dashboard.Models
+namespace dashboard.Core.Models
 {
     [Table("VehicleFeatures")]
     //Workaround for many to many relationship n<->n

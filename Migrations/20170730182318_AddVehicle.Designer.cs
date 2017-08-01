@@ -8,7 +8,7 @@ using dashboard.Persistence;
 namespace Dashboard.Migrations
 {
     [DbContext(typeof(DashboardDbContext))]
-    [Migration("20170730124901_AddVehicle")]
+    [Migration("20170730182318_AddVehicle")]
     partial class AddVehicle
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

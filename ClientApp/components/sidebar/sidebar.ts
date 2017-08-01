@@ -10,7 +10,8 @@ export default class DashboardComponent extends Vue {
 
   linkList: any[] = [
     { icon: '<i class="material-icons md-24" aria-hidden="true">dashboard</i>', title: 'Dashboard', link: '/', active: true },
-    { icon: '<i class="material-icons md-24" aria-hidden="true">list</i>', title: 'Vehicles', link: '/fetchdata', active: false },
+    { icon: '<i class="material-icons md-24" aria-hidden="true">list</i>', title: 'Vehicles', link: '/vehicles', active: false },
+    { icon: '<i class="material-icons md-24" aria-hidden="true">list</i>', title: 'Test Data', link: '/fetchdata', active: false },
     { icon: '<i class="material-icons md-24" aria-hidden="true">note_add</i>', title: 'Create Vehicle', link: '/vehicle/new', active: false },
   ];
 

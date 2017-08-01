@@ -2,7 +2,8 @@ using AutoMapper;
 
 namespace dashboard.Controllers.Resources
 {
-    public class FeatureResource
+    //Used to map resource with only Id and Name fields
+    public class KeyValuePairResource
     {
         
         public int Id { get; set; } 

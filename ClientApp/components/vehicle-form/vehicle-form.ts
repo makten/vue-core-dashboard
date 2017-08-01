@@ -27,13 +27,11 @@ export default class VehicleFormComponent extends Vue {
     selectedModel: any[] = [];
 
     vehicleForm: any = new Form({
-        vehicle: '',
-        model: '',
+        makeId: '',
+        modelId: '',
         features: [],
-        registered: null,
-        contactName: '',
-        contactEmail: '',
-        contactPhone: ''
+        isRegistered: null,
+        contact: {name: '', email: '', phone: ''}
     });
 
     mounted() {
@@ -62,13 +60,14 @@ export default class VehicleFormComponent extends Vue {
 
     changeVehicle() {
 
-        let selectedMake = _.find(this.makes, (m) => { return m.id == this.vehicleForm.vehicle });
+        let selectedMake = _.find(this.makes, (m) => { return m.id == this.vehicleForm.makeId });
+        this.vehicleForm.modelId = "";
         this.models = selectedMake ? selectedMake.models : [];
 
     }
 
     submitForm() {
-        this.vehicleForm.post('/api/vehicles');
+        this.vehicleForm.post('/api/vehicles', this.vehicleForm);
     }
 
 
