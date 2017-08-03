@@ -10,7 +10,7 @@ import * as _ from 'lodash';
         HeaderComponent: require('../header/header.vue.html'),
         SidebarComponent: require('../sidebar/sidebar.vue.html'),
         FooterComponent: require('../footer/footer.vue.html'),
-        MenuComponent: require('../navmenu/navmenu.vue.html'),
+        // MenuComponent: require('../navmenu/navmenu.vue.html'),
     }
 })
 

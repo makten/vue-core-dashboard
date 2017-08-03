@@ -1,5 +1,8 @@
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
+// import 'bootstrap-material-design/dist/css/bootstrap-material-design.css';
+
+
 
 @Component({
     components: {
@@ -9,4 +12,7 @@ import { Component } from 'vue-property-decorator';
     }
 })
 export default class AppComponent extends Vue {
+    mounted (){
+       
+    }
 }

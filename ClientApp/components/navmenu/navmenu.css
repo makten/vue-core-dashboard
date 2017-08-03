@@ -2,7 +2,9 @@
     margin-right: 10px;
 }
 
+
 /* Highlighting rules for nav menu items */
+
 .main-nav li a.router-link-active,
 .main-nav li a.router-link-active:hover,
 .main-nav li a.router-link-active:focus {
@@ -10,7 +12,9 @@
     color: white;
 }
 
+
 /* Keep the nav menu independent of scrolling and on top of other items */
+
 .main-nav {
     position: fixed;
     top: 0;
@@ -22,7 +26,7 @@
 @media (max-width: 767px) {
     /* On small screens, the nav menu spans the full width of the screen. Leave a space for it. */
     body {
-        padding-top: 50px;
+        /* padding-top: 50px; */
     }
 }
 

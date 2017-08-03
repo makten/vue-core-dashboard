@@ -4,15 +4,21 @@
 
  
   <div class="logo">
-    <i class="fa fa-tachometer"></i>
-     <span> {{ logo }} </span> 
+    <i class="fa fa-tachometer"></i>      
+     <router-link to="/" :exact="true" class="">         
+          <span style="color:bisque; padding: 3px;"> {{ logo }} </span>
+    </router-link>
   </div>
 
   <nav class="side-list">
 
     <div class="profile-wrapper">
 
-       <img src="../../../wwwroot/img/prof.jpg" class="user-image" alt="User Image" /> 
+      <router-link to="/user/settings" :exact="true" class="">         
+          <img src="../../../wwwroot/img/prof.jpg" class="user-image" alt="User Image" />
+          <p style="color:bisque; padding: 3px;">Hafiz Abass</p>
+      </router-link>
+                
     </div>
 
     <ul>  
