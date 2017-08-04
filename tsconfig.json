@@ -12,5 +12,11 @@
     "exclude": [
         "bin",
         "node_modules"
+    ],
+    "lib": [
+        "dom",
+        "es5",
+        "es2015.promise"
+
     ]
 }

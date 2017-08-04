@@ -1,21 +1,24 @@
+
 import Errors from './Errors';
 import axios from 'axios';
 import * as _ from 'lodash';
 
+// Handle form and errors
 export default class Form {
     originalData: any;
     errors: any = {};
 
     constructor(data) {
 
-        this.originalData = data;
 
+        this.originalData = data;
 
         for (let field in data) {
 
             this[field] = data[field];
         }
 
+        //Create new instance of Errors
         this.errors = new Errors();
 
     }
@@ -33,9 +36,8 @@ export default class Form {
         return data;
     }
 
-
+    //Reset form fields
     reset() {
-
 
         for (let field in this.originalData) {
             this[field] = '';
@@ -45,65 +47,47 @@ export default class Form {
 
 
     post(url) {
-
-        axios.post(url, this.data())
-            .then(response => {
-
-                let tempdata = this.onSuccess(response.data);
-
-                // resolve(response.data);
-            })
-            .catch(response => {
-
-                // this.onFail(error.response)
-
-                // reject(error.response.data)
-            });
-
+        return this.submit('post', url)
     }
 
 
-    // put(url) {
-
-    // 	return this.submit('put', url);
-    // }
-
-
-    // patch(url) {
-
-    // 	return this.submit('patch', url);
-    // }
+    put(url) {
+        return this.submit('put', url);
+    }
 
 
-    // delete(url) {
+    patch(url) {
+        return this.submit('patch', url);
+    }
 
-    // 	return this.submit('DELETE', url);
-    // }
 
-
+    delete(url) {
+        return this.submit('delete', url);
+    }
 
 
     submit(requestType, url) {
 
-        // return new Promise((resolve, reject) => {			
+        return new Promise((resolve, reject) => {
 
-        axios[requestType](url, this.data())
-            .then(response => {
+            axios[requestType](url, this.data())
+                .then(response => {
 
-                this.onSuccess(response.data);
+                    this.onSuccess(response.data);
 
-                // resolve(response.data);
-            })
-            .catch(response => {
+                    //Part of promise
+                    resolve(response.data);
 
-                // this.onFail(error.response)
+                })
+                .catch(error => {
 
-                // reject(error.response.data)
-            });
+                    this.onFail(error.response)
 
-        // });
+                    //Part of promise
+                    reject(error.response.data)
+                });
 
-
+        });
 
     }
 
@@ -124,11 +108,8 @@ export default class Form {
 
     }
 
-
     onFail(response) {
         this.errors.record(response.error)
     }
-
-
 
 }

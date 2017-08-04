@@ -2,11 +2,11 @@ import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
 import vSelect from 'vue-select';
 import * as _ from 'lodash';
+
+
 //Core components
 import Form from '../../core/Form';
 
-
-Vue.component('v-select', vSelect)
 
 interface Feature {
     name: string;
@@ -25,16 +25,18 @@ export default class VehicleFormComponent extends Vue {
     vehicle: any = {};
     selectedMake: any[] = [];
     selectedModel: any[] = [];
+    thereAreErrors: boolean = false;
 
     vehicleForm: any = new Form({
         makeId: '',
         modelId: '',
         features: [],
         isRegistered: null,
-        contact: {name: '', email: '', phone: ''}
+        contact: { name: '', email: '', phone: '' }
     });
 
     mounted() {
+
         this.getMakes();
         this.getFeatures();
     }
@@ -66,8 +68,27 @@ export default class VehicleFormComponent extends Vue {
 
     }
 
-    submitForm() {
-        this.vehicleForm.post('/api/vehicles', this.vehicleForm);
+    validateBeforeSubmit() {
+
+
+        this.$validator.validateAll().then(result => {
+            if (result) {
+
+                this.vehicleForm.post('/api/vehicles')
+                    .then(data => {
+
+                        console.log(data)
+                        this.$root.$router.push('/vehicles');
+                    })
+                    .catch(errors => {
+
+                        console.log(errors)
+                        
+                    });
+            }
+            this.thereAreErrors = !this.thereAreErrors;
+
+        });
     }
 
 
