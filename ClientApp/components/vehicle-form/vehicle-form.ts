@@ -70,7 +70,6 @@ export default class VehicleFormComponent extends Vue {
 
     validateBeforeSubmit() {
 
-
         this.$validator.validateAll().then(result => {
             if (result) {
 
@@ -83,7 +82,7 @@ export default class VehicleFormComponent extends Vue {
                     .catch(errors => {
 
                         console.log(errors)
-                        
+
                     });
             }
             this.thereAreErrors = !this.thereAreErrors;
