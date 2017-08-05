@@ -32,6 +32,7 @@ namespace vue_core_dashboard.Controllers
 
             return mapper.Map<List<Vehicle>, List<VehicleResource>>(vehicles);
         }
+        
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetVehicle(int id)

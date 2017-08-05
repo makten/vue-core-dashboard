@@ -51,7 +51,8 @@ export default class Form {
     }
 
 
-    put(url) {
+    put(url) {   
+        alert('you hit put') ;    
         return this.submit('put', url);
     }
 

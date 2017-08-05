@@ -6,16 +6,17 @@
             <div class="chart">
                 <div class="error-block error-bag" v-if="thereAreErrors">
                     <p>There are some errors! Please correct them and proceed.</p>
-                </div>                
-  
-            <!-- <v-select v-model="selected" :options="features"></v-select> -->
-           
+                </div>
+
+
+                <!-- <v-select v-model="selected" :options="features"></v-select> -->
+
                 <form class="form-vetical form" @submit.prevent="validateBeforeSubmit()">
                     <div class="form-group">
                         <label for="make">Make</label>
-                        <select v-validate="'required'" name="make" @change="changeVehicle" v-model="vehicleForm.makeId" id="make" class="form-control">                    
+                        <select v-validate="'required'" name="make" @change="changeVehicle" v-model="vehicleForm.make.id" id="make" class="form-control">                    
                             <option></option>
-                            <option v-for="make in makes" :value="make.id">{{ make.name }}</option>
+                            <option v-for="make in makes" :value="make.id">{{ make.name }}</option>                           
                         </select>
 
                         <i v-show="errors.has('make')" class="fa fa-warning"></i>
@@ -24,7 +25,7 @@
 
                     <div class="form-group" v-if="models.length">
                         <label for="models">Model</label>
-                        <select v-validate="'required'" name="models" id="models" class="form-control" v-model="vehicleForm.modelId">   
+                        <select v-validate="'required'" name="models" id="models" class="form-control" v-model="vehicleForm.model.id">   
                             <option></option>                         
                             <option v-for="model in models" :value="model.id">{{ model.name }}</option>
                         </select>
@@ -34,7 +35,7 @@
 
                     <div class="form-group">
                         <p>Is the vehicle registered?</p>
-                    
+
                         <label for="isRegistered" class="radio-inline">
                             <input v-validate="'required'"
                             v-model="vehicleForm.isRegistered" 
@@ -46,8 +47,8 @@
 
                         <i v-show="errors.has('registered')" class="fa fa-warning"></i>
                         <span v-show="errors.has('registered')" class="help is-danger">{{ errors.first('registered') }}</span>
-                    </div>           
-                
+                    </div>
+
 
                     <h3>Feature</h3>
                     <div class="form-group">
@@ -60,53 +61,43 @@
                                 v-validate="'required'"                                                              
                                 > {{ feature.name }}
                             </label>
-                        </div>  
+                        </div>
                         <i v-show="errors.has('features')" class="fa fa-warning"></i>
                         <span v-show="errors.has('features')" class="help is-danger">{{ errors.first('features') }}</span>
                     </div>
 
                     <h3>Contact</h3>
-                    
+
                     <div class="form-group">
                         <label for="name">Name</label>
-                        <input v-model="vehicleForm.contact.name" 
-                        type="text" id="name"
-                        name="name"
-                        v-validate="'required|:max:2'" 
-                        :class="{'input': true, 'is-danger': errors.has('name') }"                       
-                        class="form-control input-sm">
+                        <input v-model="vehicleForm.contact.name" type="text" id="name" name="name" v-validate="'required|:max:2'" :class="{'input': true, 'is-danger': errors.has('name') }"
+                            class="form-control input-sm">
 
                         <i v-show="errors.has('name')" class="fa fa-warning"></i>
                         <span v-show="errors.has('name')" class="help is-danger">{{ errors.first('name') }}</span>
-                        
+
                     </div>
                     <div class="form-group">
                         <label for="email">Email</label>
-                        <input v-model="vehicleForm.contact.email"
-                        v-validate="'required|email'"   
-                        name="email"                                            
-                        type="text" id="email" class="form-control input-sm" 
-                        :class="{'input': true, 'is-danger': errors.has('email') }">
+                        <input v-model="vehicleForm.contact.email" v-validate="'required|email'" name="email" type="text" id="email" class="form-control input-sm"
+                            :class="{'input': true, 'is-danger': errors.has('email') }">
 
                         <i v-show="errors.has('email')" class="fa fa-warning"></i>
                         <span v-show="errors.has('email')" class="help is-danger">{{ errors.first('email') }}</span>
-                        
+
                     </div>
 
-                <div class="form-group">
-                    <label for="phone">Phone</label>
-                    <input v-model="vehicleForm.contact.phone" type="text" id="phone" 
-                    v-validate="'required|numeric|max:13'"
-                    name="phone"
-                    :class="{'input': true, 'is-danger': errors.has('phone')}"
-                    class="form-control input-sm">
+                    <div class="form-group">
+                        <label for="phone">Phone</label>
+                        <input v-model="vehicleForm.contact.phone" type="text" id="phone" v-validate="'required|numeric|max:13'" name="phone" :class="{'input': true, 'is-danger': errors.has('phone')}"
+                            class="form-control input-sm">
 
-                    <i v-show="errors.has('phone')" class="fa fa-warning"></i>
-                    <span v-show="errors.has('phone')" class="help is-danger">{{ errors.first('phone') }}</span>
-                        
-                </div>            
+                        <i v-show="errors.has('phone')" class="fa fa-warning"></i>
+                        <span v-show="errors.has('phone')" class="help is-danger">{{ errors.first('phone') }}</span>
 
-                <button class="btn btn-primary">Save</button>
+                    </div>
+
+                    <button class="btn btn-primary">{{ vehicleForm.formMode.button }}</button>
 
                 </form>
             </div>
@@ -116,12 +107,49 @@
             <div class="title">Test form</div>
             <div class="chart">
                 {{ vehicleForm }}
+
+                <router-link to="/vehicle/new" :exact="true" class="btn-link">
+                    <span><i class="material-icons">add_circle</i> </span><span class="icon-text"> Create</span>
+                </router-link>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Make</th>
+                            <th>Model</th>
+                            <th>Features</th>
+                            <th>Contact</th>
+                            <th>Last Updated</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr v-for="vehicle in vehicles">
+                            <td><a @click="setEdit(vehicle)" href="javascript:void(0)"> {{ vehicle.make.name }}</a></td>
+                            <td><a @click="deleteVehicle(vehicle)" class="text-danger" href="javascript:void(0)"> {{ vehicle.model.name }} </a></td>
+                            <td>
+                                <span v-for="f in vehicle.features">
+                                    {{ f.name }}
+                                </span>
+                            </td>
+                            <td>{{ vehicle.contact.name }} | {{ vehicle.contact.email }} | {{ vehicle.contact.phone }}</td>
+                            <td>{{ vehicle.lastUpdate }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
             </div>
-        </div> 
+        </div>
+
+        <div class="widget">
+            <div class="title"></div>
+            <div class="chart">
+                <!-- <pdf></pdf> -->
+            </div>
+        </div>
 
 
         <div v-if="features.length">
-            
+
         </div>
         <p v-else>Loading data.....</p>
 

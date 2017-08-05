@@ -29,7 +29,6 @@
     "jquery": "^3.2.1",
     "lodash": "^4.17.4",
     "vee-validate": "^2.0.0-rc.8",
-    "vue-select": "^2.2.0",
-    "vue-toastr": "^2.0.8"
+    "vue-select": "^2.2.0"
   }
 }

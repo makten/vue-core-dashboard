@@ -11,6 +11,7 @@ namespace dashboard.Core.Models
     [Table("Vehicles")]
     public class Vehicle
     {
+        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; } 
 
        
