@@ -14,7 +14,7 @@ namespace dashboard.Controllers.Resources
 
         public int ModelId { get; set; }
         
-        [Required]
+        
         public ICollection<int> Features { get; set; }
         public bool IsRegistered { get; set; }
 

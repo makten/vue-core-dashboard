@@ -32,7 +32,7 @@ namespace vue_core_dashboard.Controllers
 
             return mapper.Map<List<Vehicle>, List<VehicleResource>>(vehicles);
         }
-        
+
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetVehicle(int id)
@@ -97,9 +97,9 @@ namespace vue_core_dashboard.Controllers
             mapper.Map<SaveVehicleResource, Vehicle>(vehicleResource, vehicle);
             vehicle.LastUpdate = DateTime.Now;
 
-            repository.Add(vehicle);
             await unitOfWork.CompleteAsync();
 
+            vehicle = await repository.GetVehicle(vehicle.Id);
             var result = mapper.Map<Vehicle, VehicleResource>(vehicle);
 
             return Ok(result);

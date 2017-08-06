@@ -14,7 +14,7 @@
                 <form class="form-vetical form" @submit.prevent="validateBeforeSubmit()">
                     <div class="form-group">
                         <label for="make">Make</label>
-                        <select v-validate="'required'" name="make" @change="changeVehicle" v-model="vehicleForm.make.id" id="make" class="form-control">                    
+                        <select v-validate="'required'" name="make" @change="changeVehicle" v-model="vehicleForm.makeId" id="make" class="form-control">                    
                             <option></option>
                             <option v-for="make in makes" :value="make.id">{{ make.name }}</option>                           
                         </select>
@@ -25,7 +25,7 @@
 
                     <div class="form-group" v-if="models.length">
                         <label for="models">Model</label>
-                        <select v-validate="'required'" name="models" id="models" class="form-control" v-model="vehicleForm.model.id">   
+                        <select v-validate="'required'" name="models" id="models" class="form-control" v-model="vehicleForm.modelId">   
                             <option></option>                         
                             <option v-for="model in models" :value="model.id">{{ model.name }}</option>
                         </select>

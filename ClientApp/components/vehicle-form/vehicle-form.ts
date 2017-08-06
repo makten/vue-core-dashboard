@@ -35,8 +35,10 @@ export default class VehicleFormComponent extends Vue {
 
     vehicleForm: any = new Form({
         id: null,
-        model: {id: '', name: ''},
-        make: {id: '', name: ''},
+        // model: {id: '', name: ''},
+        // make: {id: '', name: ''},
+        makeId: null,
+        modelId: null,
         isRegistered: null,
         features: [],             
         contact: { name: '', email: '', phone: '' },
@@ -81,9 +83,9 @@ export default class VehicleFormComponent extends Vue {
 
     changeVehicle() {
 
-        let selectedMake = _.find(this.makes, (m) => { return m.id == this.vehicleForm.make.id });
+        let selectedMake = _.find(this.makes, (m) => { return m.id == this.vehicleForm.makeId });
         if(!this.vehicleForm.id)
-            this.vehicleForm.model.id = "";
+            this.vehicleForm.modelId = "";
         this.models = selectedMake ? selectedMake.models : [];
 
     }
@@ -93,8 +95,8 @@ export default class VehicleFormComponent extends Vue {
         this.$validator.validateAll().then(result => {
             if (result) {
                 
-                this.vehicleForm.makeId = this.vehicleForm.make.id
-                this.vehicleForm.modelId = this.vehicleForm.model.id
+                // this.vehicleForm.makeId = this.vehicleForm.make.id
+                // this.vehicleForm.modelId = this.vehicleForm.model.id
                 let url = this.vehicleForm.formMode.method === 'put' ? `/api/vehicles/${this.vehicleForm.id}` :`/api/vehicles`
 
                 this.vehicleForm[this.vehicleForm.formMode.method](url)
@@ -118,8 +120,8 @@ export default class VehicleFormComponent extends Vue {
     setEdit(v) {
         console.log(v)
         this.vehicleForm.id = v.id;
-        this.vehicle.make = v.make;
-        this.vehicle.model = v.model;
+        this.vehicle.makeId = v.make.id;
+        this.vehicle.modelId = v.model.id;
         this.vehicle.features = _.map(v.features, 'id')
         this.vehicle.isRegistered = v.isRegistered;
         this.vehicle.contact = v.contact;
