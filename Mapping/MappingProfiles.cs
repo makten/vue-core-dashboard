@@ -12,6 +12,7 @@ namespace dashboard.Mapping
         {
             //Domain to API Resource
             CreateMap<Make, MakeResource>();
+            CreateMap<Model, ModelResource>();
             CreateMap<Make, KeyValuePairResource>();
             CreateMap<Model, KeyValuePairResource>();
             CreateMap<Feature, KeyValuePairResource>();

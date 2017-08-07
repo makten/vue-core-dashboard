@@ -19,13 +19,20 @@ interface Make {
     name: string;
 }
 
+interface Model {
+    id: number;
+    name: string;
+}
+
 
 @Component
 export default class VehicleFormComponent extends Vue {
     vehicles: any[] = [];
+    allVehicles: any[] = [];
     features: Feature[] = [];
     makes: any[] = [];
     models: any[] = [];
+    modelsBag: any[] = [];
     name: string = '';
     vehicle: any = {};
 
@@ -42,11 +49,14 @@ export default class VehicleFormComponent extends Vue {
         formMode: {button: 'Create', method: 'post'}
     });
     
+    filter: any  = {};   
+
 
     mounted() {
 
         this.getVehicles();
         this.getMakes();
+        this.getModels();
         this.getFeatures();
     }
 
@@ -55,7 +65,7 @@ export default class VehicleFormComponent extends Vue {
         fetch('/api/vehicles')
             .then(response => response.json() as Promise<Vehicle[]>)
             .then(data => {
-                this.vehicles = data;
+                this.vehicles = this.allVehicles = data;
             });
     }
 
@@ -64,9 +74,7 @@ export default class VehicleFormComponent extends Vue {
 
         fetch('/api/features')
             .then(response => response.json() as Promise<Feature[]>)
-            .then(data => {
-                this.features = data;
-            });
+            .then(data => { this.features = data; });
     }
 
     getMakes() {
@@ -78,6 +86,15 @@ export default class VehicleFormComponent extends Vue {
             });
     }
 
+    getModels() {
+
+        fetch('/api/models')
+            .then(response => response.json() as Promise<Model[]>)
+            .then(data => {
+                this.modelsBag = data;
+            });
+    }
+
     changeVehicle() {
 
         let selectedMake = _.find(this.makes, (m) => { return m.id == this.vehicleForm.makeId });
@@ -86,6 +103,26 @@ export default class VehicleFormComponent extends Vue {
         this.models = selectedMake ? selectedMake.models : [];
 
     }
+
+
+    filterVehicles(){
+        let vehicles = this.allVehicles;
+        
+        if(this.filter.makeId)
+            vehicles = _.filter(vehicles, v =>{ return v.make.id == this.filter.makeId}) 
+
+        if(this.filter.modelId)
+            vehicles = _.filter(vehicles, v =>{ return v.model.id == this.filter.modelId}) 
+        
+        this.vehicles = vehicles
+        
+    }
+
+    resetFilter(){
+        this.filter = {}
+        this.filterVehicles();
+    }
+
 
     validateBeforeSubmit() {
 

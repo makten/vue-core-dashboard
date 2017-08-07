@@ -113,6 +113,33 @@
                 <router-link to="/vehicle/new" :exact="true" class="btn-link">
                     <span><i class="material-icons">add_circle</i> </span><span class="icon-text"> Create</span>
                 </router-link>
+
+                <div class="well">
+                    <div class="form-group">
+                        <div class="input-group col-md-3">
+                            <label for="filter">filter make</label>
+                            <select class="form-control" name="filter" id="filter" v-model="filter.makeId" @change="filterVehicles()">
+                                
+                                <option v-for="m in makes" :value="m.id">{{m.name}}</option>
+                            </select>  
+                        </div>                      
+                    </div>
+
+                    <div class="form-group">
+                        <div class="input-group col-md-3">
+                            <label for="filter">filter model</label>
+                            <select class="form-control" name="filter" id="filter" v-model="filter.modelId" @change="filterVehicles()">
+                                
+                                <option v-for="md in modelsBag" :value="md.id">{{md.name}}</option>
+                            </select>  
+                        </div>                      
+                    </div>
+                    <button v-if="filter.makeId || filter.modelId" class="btn btn-default btn-xs" @click="resetFilter()">&times</button>
+                </div>
+                
+               
+
+                               
                 <table class="table table-hover">
                     <thead>
                         <tr>

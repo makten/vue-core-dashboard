@@ -6,7 +6,7 @@ namespace dashboard.Core
 {
     public interface IVehicleRepository
     {
-         Task<List<Vehicle>> GetVehicles();
+         Task<IEnumerable<Vehicle>> GetVehicles();
          Task<Vehicle> GetVehicle(int id, bool includeRelated = true);
 
          void Add(Vehicle vehicle);

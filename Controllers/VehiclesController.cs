@@ -30,7 +30,7 @@ namespace vue_core_dashboard.Controllers
         {
             var vehicles = await repository.GetVehicles();
 
-            return mapper.Map<List<Vehicle>, List<VehicleResource>>(vehicles);
+            return mapper.Map<IEnumerable<Vehicle>, IEnumerable<VehicleResource>>(vehicles);
         }
 
 

@@ -17,7 +17,7 @@ namespace dashboard.Persistence
         }
 
 
-        public async Task<List<Vehicle>> GetVehicles()
+        public async Task<IEnumerable<Vehicle>> GetVehicles()
         {
             return await context.Vehicles
                           .Include(v => v.Features)
@@ -29,7 +29,7 @@ namespace dashboard.Persistence
 
         public async Task<Vehicle> GetVehicle(int id, bool includeRelated = true)
         {
-            if(!includeRelated)
+            if (!includeRelated)
                 return await context.Vehicles.FindAsync(id);
 
             return await context.Vehicles
