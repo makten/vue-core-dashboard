@@ -1,6 +1,6 @@
 
 import Vue from 'vue';
-import { Component } from 'vue-property-decorator';
+import { Component, Watch } from 'vue-property-decorator';
 import vSelect from 'vue-select';
 import * as _ from 'lodash';
 
@@ -26,12 +26,28 @@ export default class DashboardComponent extends Vue {
   ];
 
   logo: string = 'VueJS .NET Core App';
-  
-
-  mounted() { }
 
 
-  changeActive(title) {    
+  windowHeight: number = 0;
+
+
+  mounted() {
+    this.$nextTick(function () { 
+      this.resizeSidebar();
+      // window.addEventListener('resize', this.resizeSidebar);
+
+    })
+  }
+
+  resizeSidebar() {
+    
+    this.windowHeight = this.$root.$el.offsetHeight > this.$el.offsetHeight ? this.$root.$el.offsetHeight + 10 : this.$el.offsetHeight ;
+    
+  }
+
+
+
+  changeActive(title) {
 
     this.linkList = _.map(this.linkList, link => {
 
@@ -43,10 +59,20 @@ export default class DashboardComponent extends Vue {
         link.active = false;
       }
 
+      this.resizeSidebar();
+
       return link;
 
     });
   }
+
+
+  get sidebarSize() {
+    return this.$root.$el.offsetHeight;
+  }
+
+  @Watch('sideSize')
+  onSidebarSize(sidebarZise, oldval) { alert('red') }
 
 }
 

@@ -2,9 +2,11 @@
     <div class="main">
 
         <div class="widget">
+            
             <div class="title">Create Vehicle</div>
             <div class="chart">
-                <div class="error-block error-bag" v-if="thereAreErrors">
+                <div class="error-block error-bag" v-if="errorBag.length > 0">  
+                    <p v-for="er in errorBag">{{er}}</p>                  
                     <p>There are some errors! Please correct them and proceed.</p>
                 </div>
 
@@ -98,6 +100,7 @@
                     </div>
 
                     <button class="btn btn-primary">{{ vehicleForm.formMode.button }}</button>
+                    <button v-if="vehicleForm.id" @click="deleteVehicle(vehicleForm.id)" type="button" class="btn btn-danger">Delete</button>
 
                 </form>
             </div>
@@ -106,8 +109,7 @@
         <div class="widget">
             <div class="title">Test form</div>
             <div class="chart">
-                {{ vehicleForm }}
-
+              
                 <router-link to="/vehicle/new" :exact="true" class="btn-link">
                     <span><i class="material-icons">add_circle</i> </span><span class="icon-text"> Create</span>
                 </router-link>
@@ -125,7 +127,7 @@
                     <tbody>
                         <tr v-for="vehicle in vehicles">
                             <td><a @click="setEdit(vehicle)" href="javascript:void(0)"> {{ vehicle.make.name }}</a></td>
-                            <td><a @click="deleteVehicle(vehicle)" class="text-danger" href="javascript:void(0)"> {{ vehicle.model.name }} </a></td>
+                            <td><a @click="deleteVehicle(vehicle.id)" class="text-danger" href="javascript:void(0)"> {{ vehicle.model.name }} </a></td>
                             <td>
                                 <span v-for="f in vehicle.features">
                                     {{ f.name }}

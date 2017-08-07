@@ -31,12 +31,9 @@ export default class VehicleFormComponent extends Vue {
 
     selectedMake: any[] = [];
     selectedModel: any[] = [];
-    thereAreErrors: boolean = false;
+    errorBag: any[] = [];
 
     vehicleForm: any = new Form({
-        id: null,
-        // model: {id: '', name: ''},
-        // make: {id: '', name: ''},
         makeId: null,
         modelId: null,
         isRegistered: null,
@@ -93,10 +90,8 @@ export default class VehicleFormComponent extends Vue {
     validateBeforeSubmit() {
 
         this.$validator.validateAll().then(result => {
-            if (result) {
+            if (result) {                
                 
-                // this.vehicleForm.makeId = this.vehicleForm.make.id
-                // this.vehicleForm.modelId = this.vehicleForm.model.id
                 let url = this.vehicleForm.formMode.method === 'put' ? `/api/vehicles/${this.vehicleForm.id}` :`/api/vehicles`
 
                 this.vehicleForm[this.vehicleForm.formMode.method](url)
@@ -107,11 +102,10 @@ export default class VehicleFormComponent extends Vue {
                     })
                     .catch(errors => {
 
-                        console.log(errors)
-
+                        this.errorBag = []
+                        this.errorBag.push(errors)
                     });
             }
-            this.thereAreErrors = !this.thereAreErrors;
 
         });
     }
@@ -131,14 +125,15 @@ export default class VehicleFormComponent extends Vue {
         this.changeVehicle();
     }
 
-    deleteVehicle(vehicle) {
-        this.vehicleForm.delete(`/api/vehicles/${vehicle.id}`).then(s => {
-            alert(`vehicle with ID ${vehicle.id} has been deleted`);
-            this.vehicles = _.reject(this.vehicles, (v) => { return v.id == vehicle.id})
-        }).
-        catch( e => {
-            console.log(e)
-        });
+    deleteVehicle(vehicleId) {
+        if(confirm("Are you sure you want to delete this item?"))
+            this.vehicleForm.delete(`/api/vehicles/${vehicleId}`).then(s => {
+                alert(`vehicle with ID ${vehicleId} has been deleted`);
+                this.vehicles = _.reject(this.vehicles, (v) => { return v.id == vehicleId})
+            }).
+            catch( e => {
+                console.log(e)
+            });
         
     }
 

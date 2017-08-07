@@ -15,7 +15,7 @@ export default class Errors {
 
     //Check if there are any errors
     any() {
-
+        console.log(this.errors)
         return Object.keys(this.errors).length > 0;
     }
 
