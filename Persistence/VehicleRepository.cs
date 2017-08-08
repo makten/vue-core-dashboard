@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using dashboard.Core.Models;
 using dashboard.Core;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace dashboard.Persistence
 {
@@ -17,14 +18,31 @@ namespace dashboard.Persistence
         }
 
 
-        public async Task<IEnumerable<Vehicle>> GetVehicles()
+        public async Task<IEnumerable<Vehicle>> GetVehicles(Filter filter)
         {
-            return await context.Vehicles
+            //Without query
+            // return await context.Vehicles
+            //               .Include(v => v.Features)
+            //                   .ThenInclude(vf => vf.Feature) // Eager load features
+            //               .Include(v => v.Model)
+            //                   .ThenInclude(m => m.Make)
+            //               .ToListAsync();
+
+            //Query filter
+            var query = context.Vehicles
                           .Include(v => v.Features)
                               .ThenInclude(vf => vf.Feature) // Eager load features
                           .Include(v => v.Model)
                               .ThenInclude(m => m.Make)
-                          .ToListAsync();
+                          .AsQueryable();
+
+            if(filter.MakeId.HasValue)
+                query = query.Where(v => v.Model.MakeId == filter.MakeId);
+            
+            if(filter.ModelId.HasValue)
+                query = query.Where(v => v.Model.Id == filter.ModelId);
+            
+            return await query.ToListAsync();
         }
 
         public async Task<Vehicle> GetVehicle(int id, bool includeRelated = true)

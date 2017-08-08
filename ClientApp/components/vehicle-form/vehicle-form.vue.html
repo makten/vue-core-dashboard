@@ -10,7 +10,6 @@
                     <p>There are some errors! Please correct them and proceed.</p>
                 </div>
 
-
                 <!-- <v-select v-model="selected" :options="features"></v-select> -->
 
                 <form class="form-vetical form" @submit.prevent="validateBeforeSubmit()">
@@ -122,17 +121,15 @@
                                 
                                 <option v-for="m in makes" :value="m.id">{{m.name}}</option>
                             </select>  
-                        </div>                      
-                    </div>
-
-                    <div class="form-group">
+                        </div>    
+                        
                         <div class="input-group col-md-3">
                             <label for="filter">filter model</label>
                             <select class="form-control" name="filter" id="filter" v-model="filter.modelId" @change="filterVehicles()">
                                 
-                                <option v-for="md in modelsBag" :value="md.id">{{md.name}}</option>
+                                <option v-for="md in filteredModels" :value="md.id">{{md.name}}</option>
                             </select>  
-                        </div>                      
+                        </div>  
                     </div>
                     <button v-if="filter.makeId || filter.modelId" class="btn btn-default btn-xs" @click="resetFilter()">&times</button>
                 </div>

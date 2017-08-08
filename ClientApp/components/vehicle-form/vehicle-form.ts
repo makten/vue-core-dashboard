@@ -44,29 +44,44 @@ export default class VehicleFormComponent extends Vue {
         makeId: null,
         modelId: null,
         isRegistered: null,
-        features: [],             
+        features: [],
         contact: { name: '', email: '', phone: '' },
-        formMode: {button: 'Create', method: 'post'}
+        formMode: { button: 'Create', method: 'post' }
     });
-    
-    filter: any  = {};   
+
+    filter: any = {};
+    filteredModels: any[] =[];
 
 
     mounted() {
 
-        this.getVehicles();
+        this.getVehicles(this.filter);
         this.getMakes();
         this.getModels();
         this.getFeatures();
     }
 
-    getVehicles() {
+    getVehicles(filter) {
 
-        fetch('/api/vehicles')
+        fetch('/api/vehicles' + '?' + this.toQueryString(filter))
             .then(response => response.json() as Promise<Vehicle[]>)
             .then(data => {
                 this.vehicles = this.allVehicles = data;
             });
+    }
+
+    toQueryString(obj) {
+
+        let parts = []
+        for (let prop in obj) {
+            let value = obj[prop]
+
+            if (value != null && value != undefined)
+                parts.push(encodeURI(prop) + "=" + encodeURI(value))
+
+        }
+
+        return parts.join('&');
     }
 
 
@@ -90,36 +105,42 @@ export default class VehicleFormComponent extends Vue {
 
         fetch('/api/models')
             .then(response => response.json() as Promise<Model[]>)
-            .then(data => {
-                this.modelsBag = data;
-            });
+            .then(data => { this.modelsBag = data; });
     }
 
     changeVehicle() {
 
         let selectedMake = _.find(this.makes, (m) => { return m.id == this.vehicleForm.makeId });
-        if(!this.vehicleForm.id)
+        if (!this.vehicleForm.id)
             this.vehicleForm.modelId = "";
         this.models = selectedMake ? selectedMake.models : [];
 
     }
+    
 
-
-    filterVehicles(){
-        let vehicles = this.allVehicles;
-        
-        if(this.filter.makeId)
-            vehicles = _.filter(vehicles, v =>{ return v.make.id == this.filter.makeId}) 
-
-        if(this.filter.modelId)
-            vehicles = _.filter(vehicles, v =>{ return v.model.id == this.filter.modelId}) 
-        
-        this.vehicles = vehicles
-        
+    private cascadeDropdown(){
+        let selectedMake = _.find(this.makes, (m) => { return m.id == this.filter.makeId });        
+        this.filteredModels = selectedMake ? selectedMake.models : [];
     }
 
-    resetFilter(){
+
+    filterVehicles() {
+        //---Client Side Only Filter ---//
+        // let vehicles = this.allVehicles;        
+        // if(this.filter.makeId)
+        //     vehicles = _.filter(vehicles, v =>{ return v.make.id == this.filter.makeId}) 
+        // if(this.filter.modelId)
+        //     vehicles = _.filter(vehicles, v =>{ return v.model.id == this.filter.modelId})         
+        // this.vehicles = vehicles
+        this.cascadeDropdown()
+        this.getVehicles(this.filter)
+        
+
+    }
+
+    resetFilter() {
         this.filter = {}
+        this.changeVehicle();
         this.filterVehicles();
     }
 
@@ -127,9 +148,9 @@ export default class VehicleFormComponent extends Vue {
     validateBeforeSubmit() {
 
         this.$validator.validateAll().then(result => {
-            if (result) {                
-                
-                let url = this.vehicleForm.formMode.method === 'put' ? `/api/vehicles/${this.vehicleForm.id}` :`/api/vehicles`
+            if (result) {
+
+                let url = this.vehicleForm.formMode.method === 'put' ? `/api/vehicles/${this.vehicleForm.id}` : `/api/vehicles`
 
                 this.vehicleForm[this.vehicleForm.formMode.method](url)
                     .then(data => {
@@ -163,15 +184,15 @@ export default class VehicleFormComponent extends Vue {
     }
 
     deleteVehicle(vehicleId) {
-        if(confirm("Are you sure you want to delete this item?"))
+        if (confirm("Are you sure you want to delete this item?"))
             this.vehicleForm.delete(`/api/vehicles/${vehicleId}`).then(s => {
                 alert(`vehicle with ID ${vehicleId} has been deleted`);
-                this.vehicles = _.reject(this.vehicles, (v) => { return v.id == vehicleId})
+                this.vehicles = _.reject(this.vehicles, (v) => { return v.id == vehicleId })
             }).
-            catch( e => {
-                console.log(e)
-            });
-        
+                catch(e => {
+                    console.log(e)
+                });
+
     }
 
 
