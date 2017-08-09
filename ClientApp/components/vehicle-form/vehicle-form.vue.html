@@ -117,21 +117,21 @@
                     <div class="form-group">
                         <div class="input-group col-md-3">
                             <label for="filter">filter make</label>
-                            <select class="form-control" name="filter" id="filter" v-model="filter.makeId" @change="filterVehicles()">
+                            <select class="form-control" name="filter" id="filter" v-model="query.makeId" @change="filterVehicles()">
                                 
                                 <option v-for="m in makes" :value="m.id">{{m.name}}</option>
                             </select>  
                         </div>    
                         
                         <div class="input-group col-md-3">
-                            <label for="filter">filter model</label>
-                            <select class="form-control" name="filter" id="filter" v-model="filter.modelId" @change="filterVehicles()">
+                            <label for="query">filter model</label>
+                            <select class="form-control" name="query" id="query" v-model="query.modelId" @change="filterVehicles()">
                                 
                                 <option v-for="md in filteredModels" :value="md.id">{{md.name}}</option>
                             </select>  
                         </div>  
                     </div>
-                    <button v-if="filter.makeId || filter.modelId" class="btn btn-default btn-xs" @click="resetFilter()">&times</button>
+                    <button v-if="query.makeId || query.modelId" class="btn btn-default btn-xs" @click="resetFilter()">&times</button>
                 </div>
                 
                
@@ -140,10 +140,10 @@
                 <table class="table table-hover">
                     <thead>
                         <tr>
-                            <th>Make</th>
-                            <th>Model</th>
+                            <th @click="sortBy('make')">Make</th>
+                            <th @click="sortBy('model')">Model</th>
                             <th>Features</th>
-                            <th>Contact</th>
+                            <th @click="sortBy('contactName')">Contact</th>
                             <th>Last Updated</th>
                         </tr>
                     </thead>

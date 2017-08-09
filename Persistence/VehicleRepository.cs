@@ -4,6 +4,9 @@ using dashboard.Core.Models;
 using dashboard.Core;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
+using System;
+using dashboard.Extensions;
 
 namespace dashboard.Persistence
 {
@@ -18,7 +21,7 @@ namespace dashboard.Persistence
         }
 
 
-        public async Task<IEnumerable<Vehicle>> GetVehicles(Filter filter)
+        public async Task<IEnumerable<Vehicle>> GetVehicles(VehicleQuery queryObj)
         {
             //Without query
             // return await context.Vehicles
@@ -36,12 +39,21 @@ namespace dashboard.Persistence
                               .ThenInclude(m => m.Make)
                           .AsQueryable();
 
-            if(filter.MakeId.HasValue)
-                query = query.Where(v => v.Model.MakeId == filter.MakeId);
+            if(queryObj.MakeId.HasValue)
+                query = query.Where(v => v.Model.MakeId == queryObj.MakeId);
             
-            if(filter.ModelId.HasValue)
-                query = query.Where(v => v.Model.Id == filter.ModelId);
-            
+            if(queryObj.ModelId.HasValue)
+                query = query.Where(v => v.Model.Id == queryObj.ModelId);
+
+            // Create a dictionary of LINQ expressions
+            var columnsMap = new Dictionary<string, Expression<Func<Vehicle, object>>>(){
+                ["make"] = v => v.Model.Make.Name,
+                ["model"] = v => v.Model.Name,
+                ["contactName"] = v => v.ContactName,                
+            };
+
+            query = query.ApplyOrdering(queryObj, columnsMap);  
+
             return await query.ToListAsync();
         }
 
@@ -63,10 +75,11 @@ namespace dashboard.Persistence
             context.Vehicles.Add(vehicle);
         }
 
-
         public void Remove(Vehicle vehicle)
         {
             context.Remove(vehicle);
         }
+
+        
     }
 }

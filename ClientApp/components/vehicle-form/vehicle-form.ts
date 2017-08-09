@@ -49,13 +49,13 @@ export default class VehicleFormComponent extends Vue {
         formMode: { button: 'Create', method: 'post' }
     });
 
-    filter: any = {};
+    query: any = {};
     filteredModels: any[] =[];
 
 
     mounted() {
 
-        this.getVehicles(this.filter);
+        this.getVehicles(this.query);
         this.getMakes();
         this.getModels();
         this.getFeatures();
@@ -119,7 +119,7 @@ export default class VehicleFormComponent extends Vue {
     
 
     private cascadeDropdown(){
-        let selectedMake = _.find(this.makes, (m) => { return m.id == this.filter.makeId });        
+        let selectedMake = _.find(this.makes, (m) => { return m.id == this.query.makeId });        
         this.filteredModels = selectedMake ? selectedMake.models : [];
     }
 
@@ -133,15 +133,26 @@ export default class VehicleFormComponent extends Vue {
         //     vehicles = _.filter(vehicles, v =>{ return v.model.id == this.filter.modelId})         
         // this.vehicles = vehicles
         this.cascadeDropdown()
-        this.getVehicles(this.filter)
+        this.getVehicles(this.query)
         
 
     }
 
     resetFilter() {
-        this.filter = {}
+        this.query = {}
         this.changeVehicle();
         this.filterVehicles();
+    }
+
+    sortBy(columnName){
+        if(this.query.sortBy === columnName){
+            this.query.isSortAscending = false;
+        }
+        else{
+            this.query.sortBy = columnName;
+            this.query.isSortAscending = true;
+        }
+
     }
 
 
