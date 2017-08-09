@@ -54,6 +54,8 @@ namespace dashboard.Persistence
 
             query = query.ApplyOrdering(queryObj, columnsMap);  
 
+            query = query.ApplyPagination(queryObj);
+
             return await query.ToListAsync();
         }
 

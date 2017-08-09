@@ -14,24 +14,33 @@
 
                 <form class="form-vetical form" @submit.prevent="validateBeforeSubmit()">
                     <div class="form-group">
-                        <label for="make">Make</label>
-                        <select v-validate="'required'" name="make" @change="changeVehicle" v-model="vehicleForm.makeId" id="make" class="form-control">                    
-                            <option></option>
-                            <option v-for="make in makes" :value="make.id">{{ make.name }}</option>                           
-                        </select>
-
-                        <i v-show="errors.has('make')" class="fa fa-warning"></i>
-                        <span v-show="errors.has('make')" class="help is-danger">{{ errors.first('make') }}</span>
+                        <div class="input-group col-md-4">
+                            <label for="make">Make</label>
+                            <select v-validate="'required'" name="make" @change="changeVehicle" v-model="vehicleForm.makeId" id="make" class="form-control">                    
+                                <option></option>
+                                <option v-for="make in makes" :value="make.id">{{ make.name }}</option>                           
+                            </select>
+                            
+                        </div>
+                        <span v-show="errors.has('make')" class="help is-danger">
+                            <i class="fa fa-warning"></i>
+                            {{ errors.first('make') }}
+                        </span>
                     </div>
 
                     <div class="form-group" v-if="models.length">
-                        <label for="models">Model</label>
-                        <select v-validate="'required'" name="models" id="models" class="form-control" v-model="vehicleForm.modelId">   
-                            <option></option>                         
-                            <option v-for="model in models" :value="model.id">{{ model.name }}</option>
-                        </select>
-                        <i v-show="errors.has('models')" class="fa fa-warning"></i>
-                        <span v-show="errors.has('models')" class="help is-danger">{{ errors.first('models') }}</span>
+                        <div class="input-group col-md-4">
+                            <label for="models">Model</label>
+                            <select v-validate="'required'" name="models" id="models" class="form-control" v-model="vehicleForm.modelId">   
+                                <option></option>                         
+                                <option v-for="model in models" :value="model.id">{{ model.name }}</option>
+                            </select>                           
+                            
+                        </div>
+                        <span v-show="errors.has('models')" class="help is-danger">
+                            <i class="fa fa-warning"></i>
+                            {{ errors.first('models') }}
+                        </span>
                     </div>
 
                     <div class="form-group">
@@ -45,9 +54,11 @@
                         <label for="notRegistered" class="radio-inline">
                             <input v-model="vehicleForm.isRegistered" value="false" id="notRegistered" type="radio" name="registered"> No
                         </label><br/>
-
-                        <i v-show="errors.has('registered')" class="fa fa-warning"></i>
-                        <span v-show="errors.has('registered')" class="help is-danger">{{ errors.first('registered') }}</span>
+                      
+                        <span v-show="errors.has('registered')" class="help is-danger">
+                            <i class="fa fa-warning"></i>
+                            {{ errors.first('registered') }}
+                        </span>
                     </div>
 
 
@@ -63,38 +74,54 @@
                                 > {{ feature.name }}
                             </label>
                         </div>
-                        <i v-show="errors.has('features')" class="fa fa-warning"></i>
-                        <span v-show="errors.has('features')" class="help is-danger">{{ errors.first('features') }}</span>
+                       
+                        <span v-show="errors.has('features')" class="help is-danger">
+                            <i class="fa fa-warning"></i>
+                            {{ errors.first('features') }}
+                        </span>
                     </div>
 
                     <h3>Contact</h3>
 
                     <div class="form-group">
-                        <label for="name">Name</label>
-                        <input v-model="vehicleForm.contact.name" type="text" id="name" name="name" v-validate="'required|:max:2'" :class="{'input': true, 'is-danger': errors.has('name') }"
-                            class="form-control input-sm">
-
-                        <i v-show="errors.has('name')" class="fa fa-warning"></i>
-                        <span v-show="errors.has('name')" class="help is-danger">{{ errors.first('name') }}</span>
+                        <div class="input-group col-md-6">
+                            <label for="name">Name</label>
+                            <input v-model="vehicleForm.contact.name" type="text" id="name" name="name" v-validate="'required|:max:2'" :class="{'input': true, 'is-danger': errors.has('name') }"
+                                class="form-control input-sm">                           
+                            
+                        </div>
+                        <span v-show="errors.has('name')" class="help is-danger">
+                            <i class="fa fa-warning"></i>
+                            {{ errors.first('name') }}
+                        </span>
 
                     </div>
                     <div class="form-group">
-                        <label for="email">Email</label>
-                        <input v-model="vehicleForm.contact.email" v-validate="'required|email'" name="email" type="text" id="email" class="form-control input-sm"
-                            :class="{'input': true, 'is-danger': errors.has('email') }">
+                        <div class="input-group col-md-6">
+                            <label for="email">Email</label>
+                            <input v-model="vehicleForm.contact.email" v-validate="'required|email'" name="email" type="text" id="email" class="form-control input-sm"
+                                :class="{'input': true, 'is-danger': errors.has('email') }">                           
+                            
+                        </div>
 
-                        <i v-show="errors.has('email')" class="fa fa-warning"></i>
-                        <span v-show="errors.has('email')" class="help is-danger">{{ errors.first('email') }}</span>
+                        <span v-show="errors.has('email')" class="help is-danger">
+                            <i class="fa fa-warning"></i>
+                            {{ errors.first('email') }}
+                        </span>
 
                     </div>
 
                     <div class="form-group">
-                        <label for="phone">Phone</label>
-                        <input v-model="vehicleForm.contact.phone" type="text" id="phone" v-validate="'required|numeric|max:13'" name="phone" :class="{'input': true, 'is-danger': errors.has('phone')}"
-                            class="form-control input-sm">
+                        <div class="input-group col-md-6">
+                            <label for="phone">Phone</label>
+                            <input v-model="vehicleForm.contact.phone" type="text" id="phone" v-validate="'required|numeric|max:13'" name="phone" :class="{'input': true, 'is-danger': errors.has('phone')}"
+                                class="form-control input-sm">                           
+                            
+                        </div>
 
-                        <i v-show="errors.has('phone')" class="fa fa-warning"></i>
-                        <span v-show="errors.has('phone')" class="help is-danger">{{ errors.first('phone') }}</span>
+                        <span v-show="errors.has('phone')" class="help is-danger">
+                            <i class="fa fa-warning"></i> {{ errors.first('phone') }}
+                        </span>
 
                     </div>
 
@@ -102,6 +129,7 @@
                     <button v-if="vehicleForm.id" @click="deleteVehicle(vehicleForm.id)" type="button" class="btn btn-danger">Delete</button>
 
                 </form>
+                
             </div>
         </div>
 
@@ -117,7 +145,7 @@
                     <div class="form-group">
                         <div class="input-group col-md-3">
                             <label for="filter">filter make</label>
-                            <select class="form-control" name="filter" id="filter" v-model="query.makeId" @change="filterVehicles()">
+                            <select class="form-control input-sm" name="filter" id="filter" v-model="query.makeId" @change="filterVehicles()">
                                 
                                 <option v-for="m in makes" :value="m.id">{{m.name}}</option>
                             </select>  
@@ -125,7 +153,7 @@
                         
                         <div class="input-group col-md-3">
                             <label for="query">filter model</label>
-                            <select class="form-control" name="query" id="query" v-model="query.modelId" @change="filterVehicles()">
+                            <select class="form-control input-sm" name="query" id="query" v-model="query.modelId" @change="filterVehicles()">
                                 
                                 <option v-for="md in filteredModels" :value="md.id">{{md.name}}</option>
                             </select>  
@@ -136,32 +164,47 @@
                 
                
 
-                               
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th @click="sortBy('make')">Make</th>
-                            <th @click="sortBy('model')">Model</th>
-                            <th>Features</th>
-                            <th @click="sortBy('contactName')">Contact</th>
-                            <th>Last Updated</th>
-                        </tr>
-                    </thead>
+                <div class="table-responsive">        
+                    <table class="table table-hover table-condensed">
+                        <thead>
+                            <tr>                            
+                                <th v-for="col in columns" @click="sortBy(col.key)">
+                                    <div v-if="col.isSortable" style="width: 120px;">
+                                       <span> {{ col.title }} 
+                                        <i v-if="query.sortBy === col.key"
+                                        :class="{'fa fa-sort-asc': query.isSortAscending, 'fa fa-sort-desc': !query.isSortAscending}"></i>
+                                       </span>
+                                    </div>
+                                    
+                                    <div v-else>{{col.title}}</div>
+                                </th>
+                                
+                            </tr>
+                        </thead>
 
-                    <tbody>
-                        <tr v-for="vehicle in vehicles">
-                            <td><a @click="setEdit(vehicle)" href="javascript:void(0)"> {{ vehicle.make.name }}</a></td>
-                            <td><a @click="deleteVehicle(vehicle.id)" class="text-danger" href="javascript:void(0)"> {{ vehicle.model.name }} </a></td>
-                            <td>
-                                <span v-for="f in vehicle.features">
-                                    {{ f.name }}
-                                </span>
-                            </td>
-                            <td>{{ vehicle.contact.name }} | {{ vehicle.contact.email }} | {{ vehicle.contact.phone }}</td>
-                            <td>{{ vehicle.lastUpdate }}</td>
-                        </tr>
-                    </tbody>
-                </table>
+                        <tbody>
+                            <tr v-for="vehicle in vehicles">
+                                <td> {{ vehicle.id }} </td>
+                                <td @click="setEdit(vehicle)"><a href="JavaScript:void(0)"> {{ vehicle.make.name }}</a></td>
+                                <td @click="deleteVehicle(vehicle.id)"><a class="text-danger" href="JavaScript:void(0)"> {{ vehicle.model.name }} </a></td>
+                                <td>
+                                    <span v-for="f in vehicle.features">
+                                        {{ f.name }}
+                                    </span>
+                                </td>
+                                <td>{{ vehicle.contact.name }} | {{ vehicle.contact.email }} | {{ vehicle.contact.phone }}</td>
+                                <td>{{ vehicle.lastUpdate }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <pagination
+                        :total-pages="query.pageSize"
+                        :total-items="10"
+                        @page-changed="pageOneChanged">
+                    </pagination>
+
+                </div>
 
             </div>
         </div>

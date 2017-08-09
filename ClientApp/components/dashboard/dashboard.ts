@@ -11,6 +11,7 @@ import * as _ from 'lodash';
         SidebarComponent: require('../sidebar/sidebar.vue.html'),
         FooterComponent: require('../footer/footer.vue.html'),
         // MenuComponent: require('../navmenu/navmenu.vue.html'),
+        
     }
 })
 

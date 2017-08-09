@@ -25,7 +25,7 @@ export default class DashboardComponent extends Vue {
 
   ];
 
-  logo: string = 'VueJS .NET Core App';
+  logo: string = 'VueJS .NET Core';
 
 
   windowHeight: number = 0;

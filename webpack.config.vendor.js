@@ -1,6 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const jQuery = require('jquery');
 
 module.exports = (env) => {
     const isDevBuild = !(env && env.prod);
@@ -11,12 +12,13 @@ module.exports = (env) => {
         resolve: { extensions: ['.js'] },
         entry: {
             vendor: [
+                'jquery',
                 'bootstrap',
                 'bootstrap/dist/css/bootstrap.css',
-                'bootstrap-material-design/dist/css/bootstrap-material-design.css',
+                // 'bootstrap-material-design/dist/css/bootstrap-material-design.css',                
+                'font-awesome/css/font-awesome.css',
                 'event-source-polyfill',
                 'isomorphic-fetch',
-                'jquery',
                 'vue',
                 'vue-router'
             ],

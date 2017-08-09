@@ -24,8 +24,9 @@ interface Model {
     name: string;
 }
 
+Vue.component('pagination', require('../paginator/paginator.vue.html') )
 
-@Component
+@Component({})
 export default class VehicleFormComponent extends Vue {
     vehicles: any[] = [];
     allVehicles: any[] = [];
@@ -49,8 +50,21 @@ export default class VehicleFormComponent extends Vue {
         formMode: { button: 'Create', method: 'post' }
     });
 
-    query: any = {};
-    filteredModels: any[] =[];
+    query: any = {
+        pageSize: 3
+    };
+    filteredModels: any[] = [];
+    columns = [
+        { title: 'Id' },
+        { title: 'Make', key: 'make', isSortable: true },
+        { title: 'Model', key: 'model', isSortable: true },
+        { title: 'Contact Name', key: 'contactName', isSortable: true },
+        { title: 'Features', key: 'Feature', isSortable: false },
+    ];
+
+    // pageOne: any = {
+    //     currentPage: 1,        
+    // }
 
 
     mounted() {
@@ -59,6 +73,12 @@ export default class VehicleFormComponent extends Vue {
         this.getMakes();
         this.getModels();
         this.getFeatures();
+    }
+
+    //Pagination event handler
+    pageOneChanged(pageNum) {        
+        this.query.page = pageNum;
+        this.getVehicles(this.query)
     }
 
     getVehicles(filter) {
@@ -105,7 +125,7 @@ export default class VehicleFormComponent extends Vue {
 
         fetch('/api/models')
             .then(response => response.json() as Promise<Model[]>)
-            .then(data => { this.modelsBag = data; });
+            .then(data => { this.modelsBag = this.filteredModels = data; });
     }
 
     changeVehicle() {
@@ -116,11 +136,11 @@ export default class VehicleFormComponent extends Vue {
         this.models = selectedMake ? selectedMake.models : [];
 
     }
-    
 
-    private cascadeDropdown(){
-        let selectedMake = _.find(this.makes, (m) => { return m.id == this.query.makeId });        
-        this.filteredModels = selectedMake ? selectedMake.models : [];
+
+    private cascadeDropdown() {
+        let selectedMake = _.find(this.makes, (m) => { return m.id == this.query.makeId });
+        this.filteredModels = selectedMake ? selectedMake.models : this.modelsBag;
     }
 
 
@@ -134,7 +154,7 @@ export default class VehicleFormComponent extends Vue {
         // this.vehicles = vehicles
         this.cascadeDropdown()
         this.getVehicles(this.query)
-        
+
 
     }
 
@@ -144,14 +164,19 @@ export default class VehicleFormComponent extends Vue {
         this.filterVehicles();
     }
 
-    sortBy(columnName){
-        if(this.query.sortBy === columnName){
-            this.query.isSortAscending = false;
+    sortBy(columnName) {
+
+        if (this.query.sortBy === columnName) {
+            this.query.isSortAscending = !this.query.isSortAscending;
         }
-        else{
+        else {
             this.query.sortBy = columnName;
             this.query.isSortAscending = true;
         }
+
+        this.getVehicles(this.query)
+
+
 
     }
 
@@ -181,7 +206,7 @@ export default class VehicleFormComponent extends Vue {
 
 
     setEdit(v) {
-        console.log(v)
+
         this.vehicleForm.id = v.id;
         this.vehicle.makeId = v.make.id;
         this.vehicle.modelId = v.model.id;
