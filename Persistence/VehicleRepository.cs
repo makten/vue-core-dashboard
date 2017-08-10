@@ -21,7 +21,7 @@ namespace dashboard.Persistence
         }
 
 
-        public async Task<IEnumerable<Vehicle>> GetVehicles(VehicleQuery queryObj)
+        public async Task<QueryResult<Vehicle>> GetVehicles(VehicleQuery queryObj)
         {
             //Without query
             // return await context.Vehicles
@@ -32,6 +32,9 @@ namespace dashboard.Persistence
             //               .ToListAsync();
 
             //Query filter
+            var result = new QueryResult<Vehicle>();
+
+
             var query = context.Vehicles
                           .Include(v => v.Features)
                               .ThenInclude(vf => vf.Feature) // Eager load features
@@ -51,12 +54,18 @@ namespace dashboard.Persistence
                 ["model"] = v => v.Model.Name,
                 ["contactName"] = v => v.ContactName,                
             };
+            
 
             query = query.ApplyOrdering(queryObj, columnsMap);  
 
+            //Count for pagination using Generic QueryResult class I created
+            result.TotalItems = await query.CountAsync();
+
             query = query.ApplyPagination(queryObj);
 
-            return await query.ToListAsync();
+            result.Items = await query.ToListAsync();
+
+            return result;
         }
 
         public async Task<Vehicle> GetVehicle(int id, bool includeRelated = true)

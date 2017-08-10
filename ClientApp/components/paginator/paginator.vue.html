@@ -1,20 +1,24 @@
 <template>
     <div>
+        <nav v-if="totalItems > pageSize">
         <ul class="pagination pagination-sm">
-            <li>
-                <a href="#" @click.prevent="pageChanged(1)" aria-label="Previous">
+            <li :class="{'disabled': currentPage == 1}">
+                <a href="#" @click.prevent="previous()" aria-label="Previous">
                 <span aria-hidden="true">&laquo;</span>
                 </a>
             </li>
-            <li v-for="n in paginationRange" :class="activePage(n)">
+
+            <li v-for="n in paginationRange" :class="{'active': currentPage == n}">
                 <a href="#" @click.prevent="pageChanged(n)">{{ n }}</a>
             </li>
-            <li>
-                <a href="#" @click.prevent="pageChanged(lastPage)" aria-label="Next">
+            
+            <li :class="{'disabled': currentPage == pages.length}">
+                <a href="#" @click.prevent="next()" aria-label="Next">
                 <span aria-hidden="true">&raquo;</span>
                 </a>
             </li>
         </ul>
+        </nav>
     </div>
 </template>
 

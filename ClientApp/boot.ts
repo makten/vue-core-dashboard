@@ -15,6 +15,7 @@ const routes = [
     { path: '/fetchdata', component: require('./components/fetchdata/fetchdata.vue.html') },
     { path: '/vehicle/new', component: require('./components/vehicle-form/vehicle-form.vue.html') },
     { path: '/vehicles', component: require('./components/vehicle/vehicle.vue.html') },
+    { name: 'vehicle', path: '/vehicles/:vehicleId', component: require('./components/vehicle/vehicle.vue.html') },
     { path: '/user/settings', component: require('./components/user/settings.vue.html') },
 ];
 

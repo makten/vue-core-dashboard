@@ -24,11 +24,13 @@ interface Model {
     name: string;
 }
 
-Vue.component('pagination', require('../paginator/paginator.vue.html') )
+Vue.component('pagination', require('../paginator/paginator.vue.html'))
 
 @Component({})
 export default class VehicleFormComponent extends Vue {
-    vehicles: any[] = [];
+    private readonly PAGE_SIZE = 4;
+    loading: boolean = false;
+    queryResult: any = {};
     allVehicles: any[] = [];
     features: Feature[] = [];
     makes: any[] = [];
@@ -49,9 +51,10 @@ export default class VehicleFormComponent extends Vue {
         contact: { name: '', email: '', phone: '' },
         formMode: { button: 'Create', method: 'post' }
     });
+    sending: boolean = false;
 
     query: any = {
-        pageSize: 3
+        pageSize: this.PAGE_SIZE
     };
     filteredModels: any[] = [];
     columns = [
@@ -62,13 +65,10 @@ export default class VehicleFormComponent extends Vue {
         { title: 'Features', key: 'Feature', isSortable: false },
     ];
 
-    // pageOne: any = {
-    //     currentPage: 1,        
-    // }
-
 
     mounted() {
 
+        this.loading = !this.loading;
         this.getVehicles(this.query);
         this.getMakes();
         this.getModels();
@@ -76,7 +76,7 @@ export default class VehicleFormComponent extends Vue {
     }
 
     //Pagination event handler
-    pageOneChanged(pageNum) {        
+    pageOneChanged(pageNum) {
         this.query.page = pageNum;
         this.getVehicles(this.query)
     }
@@ -86,7 +86,8 @@ export default class VehicleFormComponent extends Vue {
         fetch('/api/vehicles' + '?' + this.toQueryString(filter))
             .then(response => response.json() as Promise<Vehicle[]>)
             .then(data => {
-                this.vehicles = this.allVehicles = data;
+                this.queryResult = this.allVehicles = data;
+                this.loading = false;
             });
     }
 
@@ -152,6 +153,7 @@ export default class VehicleFormComponent extends Vue {
         // if(this.filter.modelId)
         //     vehicles = _.filter(vehicles, v =>{ return v.model.id == this.filter.modelId})         
         // this.vehicles = vehicles
+        this.query.page = 1;
         this.cascadeDropdown()
         this.getVehicles(this.query)
 
@@ -159,7 +161,12 @@ export default class VehicleFormComponent extends Vue {
     }
 
     resetFilter() {
-        this.query = {}
+
+        this.query = {
+            page: 1,
+            pageSize: this.PAGE_SIZE
+        }
+
         this.changeVehicle();
         this.filterVehicles();
     }
@@ -183,19 +190,21 @@ export default class VehicleFormComponent extends Vue {
 
     validateBeforeSubmit() {
 
+
+
         this.$validator.validateAll().then(result => {
             if (result) {
-
+                this.sending = true;
                 let url = this.vehicleForm.formMode.method === 'put' ? `/api/vehicles/${this.vehicleForm.id}` : `/api/vehicles`
 
                 this.vehicleForm[this.vehicleForm.formMode.method](url)
                     .then(data => {
-
+                        this.sending = false;
                         console.log(data)
                         this.$root.$router.push('/vehicles');
                     })
                     .catch(errors => {
-
+                        this.sending = false;
                         this.errorBag = []
                         this.errorBag.push(errors)
                     });
@@ -223,7 +232,7 @@ export default class VehicleFormComponent extends Vue {
         if (confirm("Are you sure you want to delete this item?"))
             this.vehicleForm.delete(`/api/vehicles/${vehicleId}`).then(s => {
                 alert(`vehicle with ID ${vehicleId} has been deleted`);
-                this.vehicles = _.reject(this.vehicles, (v) => { return v.id == vehicleId })
+                this.queryResult.items = _.reject(this.queryResult.items, (v) => { return v.id == vehicleId })
             }).
                 catch(e => {
                     console.log(e)

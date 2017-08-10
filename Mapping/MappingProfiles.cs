@@ -11,6 +11,7 @@ namespace dashboard.Mapping
         public MappingProfiles()
         {
             //Domain to API Resource
+            CreateMap(typeof(QueryResult<>), typeof(QueryResultResource<>)); //Special mapping for Generic types
             CreateMap<Make, MakeResource>();
             CreateMap<Model, ModelResource>();
             CreateMap<Make, KeyValuePairResource>();
@@ -25,7 +26,7 @@ namespace dashboard.Mapping
                 .ForMember(vr => vr.Features, opt => opt.MapFrom( v => v.Features.Select(vf => new KeyValuePairResource {Id = vf.FeatureId, Name = vf.Feature.Name})));
 
 
-            //API Resource to Domain
+            //API Resource to Domain            
             CreateMap<VehicleQueryResource, VehicleQuery>();
             CreateMap<SaveVehicleResource, Vehicle>()
             .ForMember(v => v.Id, opt => opt.Ignore())

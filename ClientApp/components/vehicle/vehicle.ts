@@ -13,23 +13,28 @@ interface Vehicle {
 
 }
 
+Vue.component('tabs', require('../../core/tabs/tabs.vue.html'))
+Vue.component('tab', require('../../core/tabs/tab.vue.html'))
+
 @Component
 export default class VehicleComponent extends Vue {
-    vehicles: Vehicle[] = [];
+    vehicle: Vehicle[] = [];
 
     mounted() {
         
-        this.getVehicles();
+        this.getVehicle(this.$route.params.vehicleId);
+        
                 
     }
     
 
-    getVehicles() {
+    getVehicle(vehicleId) {
         
-        fetch('/api/vehicles')
+        fetch(`/api/vehicles/${vehicleId}`)
             .then(response => response.json() as Promise<Vehicle[]>)
             .then(data => {
-                this.vehicles = data;
+                this.vehicle = data;
+                console.log(this.vehicle)
             });
     }
 

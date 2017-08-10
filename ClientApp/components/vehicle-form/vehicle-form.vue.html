@@ -125,7 +125,7 @@
 
                     </div>
 
-                    <button class="btn btn-primary">{{ vehicleForm.formMode.button }}</button>
+                    <button class="btn btn-primary"><i v-show="sending" class="fa fa-spinner fa-spin"></i> {{ vehicleForm.formMode.button }}</button>
                     <button v-if="vehicleForm.id" @click="deleteVehicle(vehicleForm.id)" type="button" class="btn btn-danger">Delete</button>
 
                 </form>
@@ -161,7 +161,11 @@
                     </div>
                     <button v-if="query.makeId || query.modelId" class="btn btn-default btn-xs" @click="resetFilter()">&times</button>
                 </div>
-                
+
+                <div style="text-align: center; vertical-align: center; margin: 0 auto;">
+                    <i v-show="loading" style="font-size: 100px;" class="fa fa-spinner fa-spin"></i>               
+                </div>
+ 
                
 
                 <div class="table-responsive">        
@@ -183,9 +187,14 @@
                         </thead>
 
                         <tbody>
-                            <tr v-for="vehicle in vehicles">
+                            <tr v-for="vehicle in queryResult.items">
                                 <td> {{ vehicle.id }} </td>
-                                <td @click="setEdit(vehicle)"><a href="JavaScript:void(0)"> {{ vehicle.make.name }}</a></td>
+                                <td @click="setEdit(vehicle)">
+                                    <router-link :to="{name: 'vehicle', params: {vehicleId: vehicle.id}}" >                                        
+                                        {{ vehicle.make.name }}
+                                    </router-link>
+                                </td>
+
                                 <td @click="deleteVehicle(vehicle.id)"><a class="text-danger" href="JavaScript:void(0)"> {{ vehicle.model.name }} </a></td>
                                 <td>
                                     <span v-for="f in vehicle.features">
@@ -198,12 +207,14 @@
                         </tbody>
                     </table>
 
-                    <pagination
-                        :total-pages="query.pageSize"
-                        :total-items="10"
+                   <pagination                        
+                        :page-size="query.pageSize"
+                        :total-items="queryResult.totalItems"                                                                      
                         @page-changed="pageOneChanged">
                     </pagination>
+              
 
+                     
                 </div>
 
             </div>

@@ -1,38 +1,92 @@
 <template>
     <div class="main">
 
+        
+
         <div class="widget">  
             <div class="title">Vehicles</div>          
             <div class="chart">
-                
-                <router-link to="/vehicle/new" :exact="true" class="btn-link">                    
-                    <span><i class="material-icons">add_circle</i> </span><span class="icon-text"> Create</span>
-                </router-link>
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>Make</th>
-                            <th>Model</th>
-                            <th>Features</th>
-                            <th>Contact</th>
-                            <th>Last Updated</th>
-                        </tr>
-                    </thead>
 
-                    <tbody>
-                        <tr v-for="vehicle in vehicles">
-                            <td>{{ vehicle.make.name }}</td>
-                            <td>{{ vehicle.model.name }}</td>
-                            <td>
-                                <span v-for="f in vehicle.features">
-                                    {{ f.name }}
-                                </span>
-                            </td>
-                            <td>{{ vehicle.contact.name }} | {{ vehicle.contact.email }} | {{ vehicle.contact.phone }}</td>
-                            <td>{{ vehicle.lastUpdate }}</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <tabs>
+                    <tab :name="'Vehicle'" :selected="true" >
+                        <h4>Vehicle</h4>
+
+                        <div class="row">
+
+                        <div class="col-md-5">
+
+                            <div class="card card-product">
+                                <div class="card-image">
+                                    <a href="JavaScript:void(0)">
+                                        <img class="img" src="../../../wwwroot/img/car.png">
+                                    </a>
+                                <div class="ripple-container"></div>
+                            </div>
+
+                                <div class="card-content">
+
+                                    <div class="card-actions">
+                                        
+                                        <button type="button" class="btn btn-default btn-xs">
+                                            <i class="material-icons">art_track</i>
+                                        
+                                        </button>
+                                        <button type="button" class="btn btn-success btn-xs">
+                                            <i class="material-icons">edit</i>
+                                        </button>
+
+                                        <button type="button" class="btn btn-danger btn-xs">
+                                            <i class="material-icons">close</i>                                        
+                                        </button>
+
+                                    </div>
+
+                                    <h4 class="card-title">
+                                        <a href="JavaScript:void(0)">{{vehicle.make.name}} - {{vehicle.model.name}} </a>
+                                    </h4>
+                                    <div class="row">
+
+                                    <div class="card-features col-md-6">
+                                        <ul class="list-group">
+                                            <li v-for="feature in vehicle.features" class="list-group-item">
+                                                <i style="font-size: 14px; font-weight: bolder;" class="material-icons text-success">check</i> {{ feature.name }} 
+                                            </li>
+                                        </ul>                                        
+                                    </div>
+
+                                    <div class="card-features col-md-6">
+                                        <ul class="list-group">
+                                            <li class="list-group-item">{{ vehicle.contact.name }} </li>
+                                            <li class="list-group-item">{{ vehicle.contact.email }} </li>
+                                            <li class="list-group-item">{{ vehicle.contact.phone }} </li>
+                                        </ul>                                        
+                                    </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="card-footer">
+                                    <div class="price">
+                                        <h4>$350000</h4>
+                                    </div>
+                                    <div class="stats pull-right">
+                                        <p class="category"><i class="material-icons">place</i> Zwolle, Netherlands</p>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        </div>
+                        
+                    </tab>
+
+                    <tab :name="'Photo'">
+                        <h4>Photos</h4>        
+                        
+                    </tab>
+                    
+                </tabs>                
+              
             </div>
         </div>        
 
@@ -40,7 +94,99 @@
 </template>
 
 <style>
-
+    .card-product {
+        margin-top: 30px;
+    }
+    
+    .card {
+        display: inline-block;
+        position: relative;
+        width: 100%;
+        margin: 25px 0;
+        box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
+        border-radius: 6px;
+        color: rgba(0, 0, 0, 0.87);
+        background: #fff;
+    }
+    
+    .card [data-header-animation="true"] {
+        -webkit-transform: translate3d(0, 0, 0);
+        -moz-transform: translate3d(0, 0, 0);
+        -o-transform: translate3d(0, 0, 0);
+        -ms-transform: translate3d(0, 0, 0);
+        transform: translate3d(0, 0, 0);
+        -webkit-transition: all 300ms cubic-bezier(0.34, 1.61, 0.7, 1);
+        -moz-transition: all 300ms cubic-bezier(0.34, 1.61, 0.7, 1);
+        -o-transition: all 300ms cubic-bezier(0.34, 1.61, 0.7, 1);
+        -ms-transition: all 300ms cubic-bezier(0.34, 1.61, 0.7, 1);
+        transition: all 300ms cubic-bezier(0.34, 1.61, 0.7, 1);
+    }
+    
+    .card .card-image {
+        height: 60%;
+        position: relative;
+        overflow: hidden;
+        margin-left: 15px;
+        margin-right: 15px;
+        margin-top: -30px;
+        border-radius: 6px;
+        z-index: 3;
+        box-shadow: 0 10px 30px -12px rgba(0, 0, 0, 0.42), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
+    }
+    
+    .card .card-content {
+        padding: 15px 20px;
+        position: relative;
+    }
+    
+    .card .card-footer {
+        margin: 0 20px 10px;
+        padding-top: 10px;
+        border-top: 1px solid #eeeeee;
+    }
+    
+    .card .card-footer div {
+        display: inline-block;
+    }
+    
+    .card .card-footer .stats {
+        line-height: 22px;
+        color: #999999;
+        font-size: 12px;
+    }
+    
+    .card .card-footer div {
+        display: inline-block;
+    }
+    
+    .pull-right {
+        float: right;
+    }
+    
+    .pull-right {
+        float: right!important;
+    }
+    
+    .card .card-footer .stats .category {
+        padding-top: 7px;
+        padding-bottom: 7px;
+        margin-bottom: 0;
+    }
+    
+    .card .category:not([class*="text-"]) {
+        color: #999999;
+        font-size: 14px;
+    }
+    
+    .card-product .card-title,
+    .card-product .category,
+    .card-product .card-features {
+        text-align: center;
+    }
+    
+    .card-features {
+        text-align: left !important;
+    }
 </style>
 
 <script src="./vehicle.ts"></script>
