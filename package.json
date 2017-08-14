@@ -25,8 +25,10 @@
   },
   "dependencies": {
     "@types/jquery": "^3.2.11",
+    "auth0-js": "^8.9.1",
     "axios": "^0.16.2",
     "bootstrap-material-design": "^0.5.10",
+    "font-awesome": "^4.7.0",
     "jquery": "^3.2.1",
     "lodash": "^4.17.4",
     "vee-validate": "^2.0.0-rc.8",

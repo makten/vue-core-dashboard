@@ -12,13 +12,15 @@ module.exports = (env) => {
         resolve: { extensions: ['.js'] },
         entry: {
             vendor: [
-                'jquery',
+                
+                'auth0-js',
                 'bootstrap',
                 'bootstrap/dist/css/bootstrap.css',
                 // 'bootstrap-material-design/dist/css/bootstrap-material-design.css',                
                 'font-awesome/css/font-awesome.css',
                 'event-source-polyfill',
                 'isomorphic-fetch',
+                'jquery',
                 'vue',
                 'vue-router'
             ],

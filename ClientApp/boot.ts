@@ -8,9 +8,10 @@ Vue.use(VueRouter);
 Vue.use(VeeValidate);
 
 
-
 const routes = [
     { path: '/', component: require('./components/home/home.vue.html') },
+    { path: '/home', component: require('./components/home/home.vue.html') },
+    { path: '/callback', name: 'Callback', component: require('./services/authentication/callback.vue.html') },
     { path: '/counter', component: require('./components/counter/counter.vue.html') },
     { path: '/fetchdata', component: require('./components/fetchdata/fetchdata.vue.html') },
     { path: '/vehicle/new', component: require('./components/vehicle-form/vehicle-form.vue.html') },
@@ -21,7 +22,10 @@ const routes = [
 
 new Vue({
     el: '#app-root',
-    router: new VueRouter({ mode: 'history', routes: routes }),   
-    mounted(){}, 
+    router: new VueRouter({ mode: 'history', routes: routes }),
+    mounted() { },
     render: h => h(require('./components/app/app.vue.html'))
 });
+
+
+

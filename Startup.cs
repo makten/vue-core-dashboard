@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using AutoMapper;
 using dashboard.Persistence;
+using dashboard.Core.Models;
 
 namespace WebApplicationBasic
 {
@@ -32,17 +33,20 @@ namespace WebApplicationBasic
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //Settings Injection
+            services.Configure<PhotoSettings>(Configuration.GetSection("PhotoSettings"));
 
             // Repository Injections
             services.AddScoped<IVehicleRepository, VehicleRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-            
+            services.AddScoped<IPhotosRepository, PhotosRepository>();
+
             //First install automapper and extension
             services.AddAutoMapper();
-            
+
             //Dbcontext service -- Db connection
             services.AddDbContext<DashboardDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Default")));
-            
+
             services.AddMvc();
         }
 
@@ -55,7 +59,8 @@ namespace WebApplicationBasic
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions {
+                app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
+                {
                     HotModuleReplacement = true
                 });
             }
@@ -65,6 +70,13 @@ namespace WebApplicationBasic
             }
 
             app.UseStaticFiles();
+
+            var options = new JwtBearerOptions
+            {
+                Audience = "https://api.dashboardapp.com",
+                Authority = "https://dashapp.eu.auth0.com/"
+            };
+            app.UseJwtBearerAuthentication(options);
 
             app.UseMvc(routes =>
             {

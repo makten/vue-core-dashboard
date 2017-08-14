@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using dashboard.Controllers.Resources;
 using dashboard.Core.Models;
 using dashboard.Core;
+using Microsoft.AspNetCore.Authorization;
 
 namespace vue_core_dashboard.Controllers
 {
@@ -55,6 +56,7 @@ namespace vue_core_dashboard.Controllers
 
         // [HttpPost("/api/vehicles")]
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> CreateVehicle([FromBody] SaveVehicleResource vehicleResource)
         {
             if (!ModelState.IsValid)
@@ -83,6 +85,7 @@ namespace vue_core_dashboard.Controllers
 
 
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> UpdateVehicle(int id, [FromBody] SaveVehicleResource vehicleResource)
         {
             if (!ModelState.IsValid)
@@ -109,6 +112,7 @@ namespace vue_core_dashboard.Controllers
 
 
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteVehicle(int id)
         {
             var vehicle = await repository.GetVehicle(id, includeRelated: false);

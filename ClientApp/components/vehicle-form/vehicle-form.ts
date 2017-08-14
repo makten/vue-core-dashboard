@@ -62,8 +62,10 @@ export default class VehicleFormComponent extends Vue {
         { title: 'Make', key: 'make', isSortable: true },
         { title: 'Model', key: 'model', isSortable: true },
         { title: 'Contact Name', key: 'contactName', isSortable: true },
-        { title: 'Features', key: 'Feature', isSortable: false },
+        
     ];
+
+    createEdit: boolean = false;
 
 
     mounted() {
@@ -101,7 +103,6 @@ export default class VehicleFormComponent extends Vue {
                 parts.push(encodeURI(prop) + "=" + encodeURI(value))
 
         }
-
         return parts.join('&');
     }
 
@@ -182,15 +183,10 @@ export default class VehicleFormComponent extends Vue {
         }
 
         this.getVehicles(this.query)
-
-
-
     }
 
 
     validateBeforeSubmit() {
-
-
 
         this.$validator.validateAll().then(result => {
             if (result) {
@@ -200,8 +196,8 @@ export default class VehicleFormComponent extends Vue {
                 this.vehicleForm[this.vehicleForm.formMode.method](url)
                     .then(data => {
                         this.sending = false;
-                        console.log(data)
-                        this.$root.$router.push('/vehicles');
+                        this.$root.$router.push('/vehicle/new');
+                        this.createEdit = false;
                     })
                     .catch(errors => {
                         this.sending = false;
@@ -215,6 +211,8 @@ export default class VehicleFormComponent extends Vue {
 
 
     setEdit(v) {
+        
+        this.createEdit = true;
 
         this.vehicleForm.id = v.id;
         this.vehicle.makeId = v.make.id;
