@@ -13,15 +13,16 @@
 
     <div class="profile-wrapper">
 
-      <router-link to="/user/settings" :exact="true" class="">         
-          <img src="../../../wwwroot/img/prof1.jpg" class="user-image" alt="User Image" />
-          <p style="color:bisque; padding: 3px;">Hafiz Abass</p>
+      <router-link to="/user/settings" :exact="true" class="">        
+        <!--../../../wwwroot/img/prof1.jpg -->
+          <img :src="userProfile.picture" class="user-image" alt="User Image" />
+          <p style="color:bisque; padding: 3px;">{{ userProfile.name }}</p>
       </router-link>
                 
     </div>
 
     <ul>  
-      <li v-for="item in linkList" :class="{ active: item.active }" @click="changeActive(item.title)"> 
+      <li v-for="item in linkList" :class="{ active: item.active }" @click="changeActive(item.link)"> 
         <router-link :to="item.link" :exact="true">
           <span v-html="item.icon"></span> <span class="link-text" v-text="item.title"> </span>
         </router-link>

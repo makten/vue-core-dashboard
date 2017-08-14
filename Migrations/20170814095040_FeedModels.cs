@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Dashboard.Migrations
 {
-    public partial class SeedModelDatabase : Migration
+    public partial class FeedModels : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

@@ -56,7 +56,7 @@ namespace vue_core_dashboard.Controllers
 
         // [HttpPost("/api/vehicles")]
         [HttpPost]
-        [Authorize]
+        // [Authorize]
         public async Task<IActionResult> CreateVehicle([FromBody] SaveVehicleResource vehicleResource)
         {
             if (!ModelState.IsValid)

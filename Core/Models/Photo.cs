@@ -10,7 +10,7 @@ namespace dashboard.Core.Models
 
         [Required]
         [StringLength(255)]
-        public string PhotoName { get; set; }
+        public string PhotoName { get; set; }       
 
         public int VehicleId { get; set; }
     }

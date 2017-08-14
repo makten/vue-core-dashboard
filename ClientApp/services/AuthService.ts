@@ -17,12 +17,15 @@ export default class AuthService extends Vue {
         redirectUri: 'http://localhost:5000/callback',
         // audience: 'https://dashapp.eu.auth0.com/userinfo',
         responseType: 'token id_token',
-        scope: 'openid'
+        scope: 'openid email nickname picture name'
     });
 
     constructor() {
         super();
-        this.userProfile = JSON.parse(localStorage.getItem('profile'));
+
+        let profile = localStorage.getItem('profile');
+        if (typeof profile !== 'undefined' && profile !== null)
+            this.userProfile = JSON.parse(localStorage.getItem('profile'));
 
         this.login = this.login.bind(this);
         this.setSession = this.setSession.bind(this);
@@ -34,9 +37,12 @@ export default class AuthService extends Vue {
     login() {
 
         this.auth0.authorize();
+
     }
 
     handleAuthentication() {
+
+        let vm = this;
 
         this.auth0.parseHash((err, authResult) => {
             if (authResult && authResult.accessToken && authResult.idToken) {
@@ -44,7 +50,7 @@ export default class AuthService extends Vue {
                 this.auth0.client.userInfo(authResult.accessToken, function (err, user) {
 
                     localStorage.setItem('profile', JSON.stringify(user))
-                    this.userProfile = user;
+                    vm.userProfile = user;
                 });
 
                 this.setSession(authResult)
@@ -66,6 +72,7 @@ export default class AuthService extends Vue {
         localStorage.setItem('expires_at', expiresAt)
 
         this.authNotifier.$emit('authChange', { authenticated: true })
+        window.location.reload();
 
     }
 
@@ -81,8 +88,11 @@ export default class AuthService extends Vue {
         this.authNotifier.$emit('changeRoute', '/home')
         this.authNotifier.$emit('authChange', false)
 
+        //Temporal solution for page freeze
+        window.location.reload();
+
     }
-    
+
 
     isAuthenticated() {
         // Check whether the current time is past the

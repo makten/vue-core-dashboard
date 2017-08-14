@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Dashboard.Migrations
 {
-    public partial class SeeFeatures : Migration
+    public partial class SeedFeatures : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

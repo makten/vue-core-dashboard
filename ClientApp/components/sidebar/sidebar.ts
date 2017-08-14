@@ -8,6 +8,7 @@ import * as _ from 'lodash';
 @Component
 export default class DashboardComponent extends Vue {
 
+  userProfile: any = {};
   linkList: any[] = [
     { icon: '<i class="material-icons md-24" aria-hidden="true">dashboard</i>', title: 'Dashboard', link: '/', active: true },
     { icon: '<i class="material-icons md-24" aria-hidden="true">local_mall</i>', title: 'My Purchases', link: '/vehicles', active: false },
@@ -32,26 +33,28 @@ export default class DashboardComponent extends Vue {
 
 
   mounted() {
-    this.$nextTick(function () { 
+    this.$nextTick(function () {
       this.resizeSidebar();
       // window.addEventListener('resize', this.resizeSidebar);
+      let profile = localStorage.getItem('profile');
+      if (typeof profile !== 'undefined' && profile !== null)
+        this.userProfile = JSON.parse(localStorage.getItem('profile'));
+
+      this.changeActive(window.location.pathname);
 
     })
   }
 
   resizeSidebar() {
-    
-    this.windowHeight = this.$root.$el.offsetHeight > this.$el.offsetHeight ? this.$root.$el.offsetHeight + 10 : this.$el.offsetHeight ;
-    
+    this.windowHeight = this.$root.$el.offsetHeight > this.$el.offsetHeight ? this.$root.$el.offsetHeight + 10 : this.$el.offsetHeight;
   }
-
 
 
   changeActive(title) {
 
     this.linkList = _.map(this.linkList, link => {
 
-      if (link.title == title) {
+      if (link.link == title) {
 
         link.active = true;
       }

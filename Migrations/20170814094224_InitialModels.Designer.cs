@@ -8,9 +8,10 @@ using dashboard.Persistence;
 namespace Dashboard.Migrations
 {
     [DbContext(typeof(DashboardDbContext))]
-    partial class DashboardDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170814094224_InitialModels")]
+    partial class InitialModels
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")

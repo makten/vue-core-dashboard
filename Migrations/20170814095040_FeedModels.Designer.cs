@@ -8,8 +8,8 @@ using dashboard.Persistence;
 namespace Dashboard.Migrations
 {
     [DbContext(typeof(DashboardDbContext))]
-    [Migration("20170730182318_AddVehicle")]
-    partial class AddVehicle
+    [Migration("20170814095040_FeedModels")]
+    partial class FeedModels
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -17,7 +17,7 @@ namespace Dashboard.Migrations
                 .HasAnnotation("ProductVersion", "1.1.2")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("dashboard.Models.Feature", b =>
+            modelBuilder.Entity("dashboard.Core.Models.Feature", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -31,7 +31,7 @@ namespace Dashboard.Migrations
                     b.ToTable("Features");
                 });
 
-            modelBuilder.Entity("dashboard.Models.Make", b =>
+            modelBuilder.Entity("dashboard.Core.Models.Make", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -45,7 +45,7 @@ namespace Dashboard.Migrations
                     b.ToTable("Makes");
                 });
 
-            modelBuilder.Entity("dashboard.Models.Model", b =>
+            modelBuilder.Entity("dashboard.Core.Models.Model", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -63,7 +63,25 @@ namespace Dashboard.Migrations
                     b.ToTable("Models");
                 });
 
-            modelBuilder.Entity("vue_core_dashboard.Models.Vehicle", b =>
+            modelBuilder.Entity("dashboard.Core.Models.Photo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("PhotoName")
+                        .IsRequired()
+                        .HasMaxLength(255);
+
+                    b.Property<int>("VehicleId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("VehicleId");
+
+                    b.ToTable("Photos");
+                });
+
+            modelBuilder.Entity("dashboard.Core.Models.Vehicle", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -91,7 +109,7 @@ namespace Dashboard.Migrations
                     b.ToTable("Vehicles");
                 });
 
-            modelBuilder.Entity("vue_core_dashboard.Models.VehicleFeature", b =>
+            modelBuilder.Entity("dashboard.Core.Models.VehicleFeature", b =>
                 {
                     b.Property<int>("VehicleId");
 
@@ -104,30 +122,38 @@ namespace Dashboard.Migrations
                     b.ToTable("VehicleFeatures");
                 });
 
-            modelBuilder.Entity("dashboard.Models.Model", b =>
+            modelBuilder.Entity("dashboard.Core.Models.Model", b =>
                 {
-                    b.HasOne("dashboard.Models.Make", "Make")
+                    b.HasOne("dashboard.Core.Models.Make", "Make")
                         .WithMany("Models")
                         .HasForeignKey("MakeId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("vue_core_dashboard.Models.Vehicle", b =>
+            modelBuilder.Entity("dashboard.Core.Models.Photo", b =>
                 {
-                    b.HasOne("dashboard.Models.Model", "Model")
+                    b.HasOne("dashboard.Core.Models.Vehicle")
+                        .WithMany("Photos")
+                        .HasForeignKey("VehicleId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("dashboard.Core.Models.Vehicle", b =>
+                {
+                    b.HasOne("dashboard.Core.Models.Model", "Model")
                         .WithMany()
                         .HasForeignKey("ModelId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("vue_core_dashboard.Models.VehicleFeature", b =>
+            modelBuilder.Entity("dashboard.Core.Models.VehicleFeature", b =>
                 {
-                    b.HasOne("dashboard.Models.Feature", "Feature")
+                    b.HasOne("dashboard.Core.Models.Feature", "Feature")
                         .WithMany()
                         .HasForeignKey("FeatureId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("vue_core_dashboard.Models.Vehicle", "Vehicle")
+                    b.HasOne("dashboard.Core.Models.Vehicle", "Vehicle")
                         .WithMany("Features")
                         .HasForeignKey("VehicleId")
                         .OnDelete(DeleteBehavior.Cascade);

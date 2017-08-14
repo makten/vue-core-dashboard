@@ -8,8 +8,8 @@ using dashboard.Persistence;
 namespace Dashboard.Migrations
 {
     [DbContext(typeof(DashboardDbContext))]
-    [Migration("20170810140019_AddPhotos")]
-    partial class AddPhotos
+    [Migration("20170814095237_SeedMake")]
+    partial class SeedMake
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -72,7 +72,7 @@ namespace Dashboard.Migrations
                         .IsRequired()
                         .HasMaxLength(255);
 
-                    b.Property<int?>("VehicleId");
+                    b.Property<int>("VehicleId");
 
                     b.HasKey("Id");
 
@@ -134,7 +134,8 @@ namespace Dashboard.Migrations
                 {
                     b.HasOne("dashboard.Core.Models.Vehicle")
                         .WithMany("Photos")
-                        .HasForeignKey("VehicleId");
+                        .HasForeignKey("VehicleId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("dashboard.Core.Models.Vehicle", b =>

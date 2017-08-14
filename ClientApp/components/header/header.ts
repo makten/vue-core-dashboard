@@ -15,13 +15,19 @@ export default class HeaderComponent extends Vue {
   auth: any;
 
   @Prop({})
-  authenticated: any; 
+  authenticated: any;
 
-  mounted() { 
+  userProfile: any = {};
+
+  mounted() {
+
+    let profile = localStorage.getItem('profile');
+    if (typeof profile !== 'undefined' && profile !== null)
+      this.userProfile = JSON.parse(localStorage.getItem('profile'));
 
   }
 
-  
+
 
 }
 

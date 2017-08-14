@@ -12,7 +12,7 @@ module.exports = (env) => {
         resolve: { extensions: ['.js'] },
         entry: {
             vendor: [
-                
+
                 'auth0-js',
                 'bootstrap',
                 'bootstrap/dist/css/bootstrap.css',
