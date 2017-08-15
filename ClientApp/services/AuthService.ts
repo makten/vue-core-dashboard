@@ -1,7 +1,9 @@
+import { AUTH0_CONFIG } from './auth.variable';
 import { Prop, Component } from 'vue-property-decorator';
 import auth0 from 'auth0-js';
 import Vue from 'vue';
 import * as globals from '.././globals';
+
 
 
 export default class AuthService extends Vue {
@@ -12,20 +14,15 @@ export default class AuthService extends Vue {
 
 
     auth0: any = new auth0.WebAuth({
-        domain: 'dashapp.eu.auth0.com',
-        clientID: 'bTt10c7zJNB6yVkykSyiC0bM9KGgru4C',
-        redirectUri: 'http://localhost:5000/callback',
-        // audience: 'https://dashapp.eu.auth0.com/userinfo',
-        responseType: 'token id_token',
-        scope: 'openid email nickname picture name'
+        domain: AUTH0_CONFIG.domain,
+        clientID: AUTH0_CONFIG.clientID,
+        redirectUri: AUTH0_CONFIG.redirectUri,
+        responseType: AUTH0_CONFIG.responseType,
+        scope: AUTH0_CONFIG.scope
     });
 
     constructor() {
-        super();
-
-        let profile = localStorage.getItem('profile');
-        if (typeof profile !== 'undefined' && profile !== null)
-            this.userProfile = JSON.parse(localStorage.getItem('profile'));
+        super();      
 
         this.login = this.login.bind(this);
         this.setSession = this.setSession.bind(this);
@@ -50,7 +47,8 @@ export default class AuthService extends Vue {
                 this.auth0.client.userInfo(authResult.accessToken, function (err, user) {
 
                     localStorage.setItem('profile', JSON.stringify(user))
-                    vm.userProfile = user;
+                                   
+                    
                 });
 
                 this.setSession(authResult)
@@ -64,6 +62,7 @@ export default class AuthService extends Vue {
 
 
     setSession(authResult) {
+        console.log(authResult)
 
         // Set the time that the access token will expire at
         let expiresAt = JSON.stringify(authResult.expiresIn * 1000 + new Date().getTime())
